@@ -2,21 +2,28 @@ import SwiftUI
 
 struct ReadingCard: View {
     let segment: TextSegment
-    let textMode: TextMode
+    let readingMode: ReadingMode
     let onGlossaryTap: (GlossaryEntry) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if textMode == .original {
+            switch readingMode {
+            case .original:
                 glossaryText(segment.originalText, glossary: segment.glossaryEntries)
                     .font(DS.Fonts.serif(18))
                     .foregroundColor(DS.Colors.textPaper)
                     .lineSpacing(8)
-            } else {
+            case .easy:
                 Text(segment.easyText)
                     .font(DS.Fonts.body(17))
                     .foregroundColor(DS.Colors.textPaper.opacity(0.9))
                     .lineSpacing(8)
+            case .emo:
+                Text(segment.emoText)
+                    .font(DS.Fonts.body(17, weight: .light))
+                    .foregroundColor(DS.Colors.accentPink.opacity(0.9))
+                    .lineSpacing(10)
+                    .italic()
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -75,7 +82,7 @@ struct ReadingCard: View {
 #Preview {
     ReadingCard(
         segment: WorksData.all[0].segments[0],
-        textMode: .original,
+        readingMode: .original,
         onGlossaryTap: { _ in }
     )
     .padding()

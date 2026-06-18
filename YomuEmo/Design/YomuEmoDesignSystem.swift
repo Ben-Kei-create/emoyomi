@@ -22,6 +22,14 @@ enum DS {
         static let accentLavender = Color(hex: "a78bfa")
 
         static let borderSubtle = Color.white.opacity(0.08)
+
+        static let paperCream = Color(hex: "FFF8F0")
+        static let warmIvory = Color(hex: "FDF6EC")
+        static let softPink = Color(hex: "FFD6E0")
+        static let popYellow = Color(hex: "FFE66D")
+        static let skyBlue = Color(hex: "A0D2DB")
+        static let mintGreen = Color(hex: "B5EAD7")
+        static let lavender = Color(hex: "C7CEEA")
     }
 
     // MARK: - Gradients
@@ -41,6 +49,18 @@ enum DS {
 
         static let paperCard = LinearGradient(
             colors: [Colors.bgPaper.opacity(0.95), Colors.bgPaperEnd.opacity(0.9)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+
+        static let stickyNote = LinearGradient(
+            colors: [Colors.popYellow.opacity(0.95), Colors.popYellow.opacity(0.8)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+
+        static let diagnosisCard = LinearGradient(
+            colors: [Colors.softPink.opacity(0.9), Colors.lavender.opacity(0.8)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )

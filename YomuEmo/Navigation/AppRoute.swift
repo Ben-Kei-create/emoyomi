@@ -7,6 +7,8 @@ enum AppRoute: Hashable {
     case completion(workId: String)
     case authorProfile(authorId: String)
     case premium
+    case diagnosis
+    case favorites
 }
 
 extension AppRoute {
@@ -31,6 +33,10 @@ extension AppRoute {
             }
         case .premium:
             PremiumView()
+        case .diagnosis:
+            EmotionDiagnosisView()
+        case .favorites:
+            FavoritesView()
         }
     }
 }

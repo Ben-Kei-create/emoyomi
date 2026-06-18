@@ -15,6 +15,12 @@ struct MainTabView: View {
                     Text("作品")
                 }
 
+            FavoritesView()
+                .tabItem {
+                    Image(systemName: "bookmark.fill")
+                    Text("お気に入り")
+                }
+
             PremiumView()
                 .tabItem {
                     Image(systemName: "star.fill")

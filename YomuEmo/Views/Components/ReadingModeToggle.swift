@@ -1,25 +1,24 @@
 import SwiftUI
 
-struct OriginalEasyToggle: View {
+struct ReadingModeToggle: View {
     @Binding var readingMode: ReadingMode
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach([ReadingMode.original, ReadingMode.easy], id: \.rawValue) { mode in
+            ForEach(ReadingMode.allCases, id: \.rawValue) { mode in
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         readingMode = mode
                     }
                 }) {
-                    Text(mode.rawValue)
-                        .font(DS.Fonts.small())
-                        .fontWeight(.medium)
+                    Text(mode == .emo ? "エモ訳" : mode.rawValue)
+                        .font(DS.Fonts.body(11, weight: .medium))
                         .foregroundColor(readingMode == mode ? .white : DS.Colors.textSecondary)
-                        .padding(.horizontal, DS.Spacing.lg)
+                        .padding(.horizontal, DS.Spacing.md)
                         .padding(.vertical, DS.Spacing.sm)
                         .background(
                             Capsule()
-                                .fill(readingMode == mode ? DS.Colors.accentIndigo : Color.clear)
+                                .fill(readingMode == mode ? modeColor(mode) : Color.clear)
                         )
                 }
             }
@@ -33,10 +32,18 @@ struct OriginalEasyToggle: View {
                 )
         )
     }
+
+    private func modeColor(_ mode: ReadingMode) -> Color {
+        switch mode {
+        case .original: return DS.Colors.accentIndigo
+        case .easy: return DS.Colors.accentNeon
+        case .emo: return DS.Colors.accentPink
+        }
+    }
 }
 
 #Preview {
-    OriginalEasyToggle(readingMode: .constant(.original))
+    ReadingModeToggle(readingMode: .constant(.original))
         .padding()
         .background(DS.Colors.bgPrimary)
 }

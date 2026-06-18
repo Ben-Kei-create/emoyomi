@@ -19,6 +19,7 @@ struct HomeView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
                 headerSection
+                diagnosisCard
                 emotionTagsSection
                 worksSection
                 authorsSection
@@ -54,6 +55,38 @@ struct HomeView: View {
         .padding(.horizontal, DS.Spacing.xl)
         .padding(.top, DS.Spacing.lg)
         .padding(.bottom, DS.Spacing.xl)
+    }
+
+    private var diagnosisCard: some View {
+        NavigationLink(destination: EmotionDiagnosisView()) {
+            HStack(spacing: DS.Spacing.lg) {
+                VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+                    Text("✨ 今日の気分から選ぶ")
+                        .font(DS.Fonts.body(16, weight: .medium))
+                        .foregroundColor(DS.Colors.textPaper)
+
+                    Text("3つの質問で、あなたにぴったりの\n文学作品を見つけます")
+                        .font(DS.Fonts.body(12))
+                        .foregroundColor(DS.Colors.textPaper.opacity(0.7))
+                        .lineSpacing(2)
+                }
+
+                Spacer()
+
+                Text("→")
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(DS.Colors.textPaper.opacity(0.6))
+            }
+            .padding(DS.Spacing.xl)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.lg)
+                    .fill(DS.Gradients.diagnosisCard)
+                    .shadow(color: DS.Colors.softPink.opacity(0.3), radius: 8, y: 2)
+            )
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.bottom, DS.Spacing.xxl)
     }
 
     private var emotionTagsSection: some View {

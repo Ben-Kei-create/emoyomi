@@ -21,7 +21,7 @@ struct ReadingView: View {
                 Spacer()
                 ReadingCard(
                     segment: vm.currentSegment,
-                    textMode: vm.textMode,
+                    readingMode: vm.readingMode,
                     onGlossaryTap: { entry in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             vm.selectedGlossary = entry
@@ -49,8 +49,11 @@ struct ReadingView: View {
                             }
                         }
                 )
-                OriginalEasyToggle(textMode: $vm.textMode)
-                    .padding(.top, DS.Spacing.md)
+                HStack(spacing: DS.Spacing.md) {
+                    ReadingModeToggle(readingMode: $vm.readingMode)
+                    saveQuoteButton
+                }
+                .padding(.top, DS.Spacing.md)
                 supportCards
                 Spacer()
                 bottomBar
@@ -63,10 +66,40 @@ struct ReadingView: View {
                     }
                 }
             }
+
+            if vm.showPoll, let poll = vm.currentPoll {
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation { vm.showPoll = false }
+                        }
+
+                    PollCard(poll: poll)
+                        .padding(.horizontal, DS.Spacing.xxl)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
         }
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $vm.isCompleted) {
             CompletionView(work: work)
+        }
+    }
+
+    private var saveQuoteButton: some View {
+        Button(action: { vm.saveCurrentQuote() }) {
+            Image(systemName: vm.quoteSaved ? "bookmark.fill" : "bookmark")
+                .font(.system(size: 16))
+                .foregroundColor(vm.quoteSaved ? DS.Colors.popYellow : DS.Colors.textSecondary)
+                .frame(width: 36, height: 36)
+                .background(
+                    Circle()
+                        .fill(DS.Colors.bgCard.opacity(0.8))
+                        .overlay(
+                            Circle().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1)
+                        )
+                )
         }
     }
 

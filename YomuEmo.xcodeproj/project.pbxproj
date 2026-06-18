@@ -38,6 +38,14 @@
 		A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001D /* PrimaryButton.swift */; };
 		A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001E /* MainTabView.swift */; };
 		A1B2C3D4E5F6000100001F /* WorkCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001F /* WorkCard.swift */; };
+		A1B2C3D4E5F60001000020 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000020 /* Poll.swift */; };
+		A1B2C3D4E5F60001000021 /* FavoriteQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000021 /* FavoriteQuote.swift */; };
+		A1B2C3D4E5F60001000022 /* EmotionDiagnosisResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */; };
+		A1B2C3D4E5F60001000023 /* EmotionDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */; };
+		A1B2C3D4E5F60001000024 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000024 /* FavoritesView.swift */; };
+		A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000025 /* PollCard.swift */; };
+		A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000026 /* QuoteCard.swift */; };
+		A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +80,14 @@
 		A1B2C3D4E5F6000200001D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001F /* WorkCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000020 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000021 /* FavoriteQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteQuote.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDiagnosisResult.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDiagnosisView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000024 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000025 /* PollCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000026 /* QuoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingModeToggle.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -119,6 +135,9 @@
 				A1B2C3D4E5F60002000004 /* Author.swift */,
 				A1B2C3D4E5F60002000005 /* TextSegment.swift */,
 				A1B2C3D4E5F60002000006 /* GlossaryEntry.swift */,
+				A1B2C3D4E5F60002000020 /* Poll.swift */,
+				A1B2C3D4E5F60002000021 /* FavoriteQuote.swift */,
+				A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,6 +171,8 @@
 				A1B2C3D4E5F60002000010 /* AuthorProfileView.swift */,
 				A1B2C3D4E5F60002000011 /* PremiumView.swift */,
 				A1B2C3D4E5F6000200001E /* MainTabView.swift */,
+				A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */,
+				A1B2C3D4E5F60002000024 /* FavoritesView.swift */,
 				A1B2C3D4E5F60005000007 /* Components */,
 			);
 			path = Views;
@@ -168,6 +189,9 @@
 				A1B2C3D4E5F6000200001C /* ReadingCard.swift */,
 				A1B2C3D4E5F6000200001D /* PrimaryButton.swift */,
 				A1B2C3D4E5F6000200001F /* WorkCard.swift */,
+				A1B2C3D4E5F60002000025 /* PollCard.swift */,
+				A1B2C3D4E5F60002000026 /* QuoteCard.swift */,
+				A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -312,6 +336,14 @@
 				A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */,
 				A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */,
 				A1B2C3D4E5F6000100001F /* WorkCard.swift in Sources */,
+				A1B2C3D4E5F60001000020 /* Poll.swift in Sources */,
+				A1B2C3D4E5F60001000021 /* FavoriteQuote.swift in Sources */,
+				A1B2C3D4E5F60001000022 /* EmotionDiagnosisResult.swift in Sources */,
+				A1B2C3D4E5F60001000023 /* EmotionDiagnosisView.swift in Sources */,
+				A1B2C3D4E5F60001000024 /* FavoritesView.swift in Sources */,
+				A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */,
+				A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */,
+				A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
