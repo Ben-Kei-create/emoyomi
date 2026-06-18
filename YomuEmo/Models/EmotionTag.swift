@@ -55,17 +55,9 @@ enum EmotionTag: String, CaseIterable, Codable, Identifiable {
         case .諦念: return "🍃"
         }
     }
-}
 
-extension Color {
-    init(hex: String) {
-        let scanner = Scanner(string: hex)
-        var rgb: UInt64 = 0
-        scanner.scanHexInt64(&rgb)
-        self.init(
-            red: Double((rgb >> 16) & 0xFF) / 255.0,
-            green: Double((rgb >> 8) & 0xFF) / 255.0,
-            blue: Double(rgb & 0xFF) / 255.0
-        )
-    }
+    static let displayOrder: [EmotionTag] = [
+        .孤独, .不安, .嫉妬, .希望, .怒り, .恋愛,
+        .罪悪感, .生きづらさ, .青春, .絶望, .自己嫌悪, .承認欲求
+    ]
 }

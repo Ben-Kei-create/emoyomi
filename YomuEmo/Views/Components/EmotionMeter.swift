@@ -1,24 +1,24 @@
 import SwiftUI
 
-struct EmotionMeterView: View {
-    let emotions: [EmotionTag: Int]
+struct EmotionMeter: View {
+    let emotionScores: [EmotionTag: Int]
 
     private var sortedEmotions: [(tag: EmotionTag, value: Int)] {
-        emotions.map { (tag: $0.key, value: $0.value) }
+        emotionScores.map { (tag: $0.key, value: $0.value) }
             .sorted { $0.value > $1.value }
     }
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: DS.Spacing.sm) {
             ForEach(sortedEmotions, id: \.tag) { item in
-                HStack(spacing: 8) {
+                HStack(spacing: DS.Spacing.sm) {
                     Text(item.tag.emoji)
-                        .font(.system(size: 12))
+                        .font(DS.Fonts.small())
                         .frame(width: 20)
 
                     Text(item.tag.rawValue)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "9ca3af"))
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
                         .frame(width: 56, alignment: .leading)
 
                     GeometryReader { geo in
@@ -35,8 +35,8 @@ struct EmotionMeterView: View {
                     .frame(height: 6)
 
                     Text("\(item.value)")
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "9ca3af").opacity(0.5))
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary.opacity(0.5))
                         .frame(width: 24, alignment: .trailing)
                 }
             }
@@ -45,7 +45,7 @@ struct EmotionMeterView: View {
 }
 
 #Preview {
-    EmotionMeterView(emotions: [.孤独: 90, .不安: 70, .自己嫌悪: 85])
+    EmotionMeter(emotionScores: [.孤独: 90, .不安: 70, .自己嫌悪: 85])
         .padding()
-        .background(Color(hex: "0a0e1a"))
+        .background(DS.Colors.bgPrimary)
 }

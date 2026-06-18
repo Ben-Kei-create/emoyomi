@@ -5,16 +5,16 @@ struct WelcomeView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "0a0e1a").ignoresSafeArea()
+            DS.Colors.bgPrimary.ignoresSafeArea()
 
             Circle()
-                .fill(Color(hex: "6366f1").opacity(0.1))
+                .fill(DS.Colors.accentIndigo.opacity(0.1))
                 .frame(width: 300, height: 300)
                 .blur(radius: 60)
                 .offset(x: -80, y: -150)
 
             Circle()
-                .fill(Color(hex: "ec4899").opacity(0.1))
+                .fill(DS.Colors.accentPink.opacity(0.1))
                 .frame(width: 200, height: 200)
                 .blur(radius: 50)
                 .offset(x: 100, y: 100)
@@ -24,46 +24,40 @@ struct WelcomeView: View {
 
                 Text("📖")
                     .font(.system(size: 64))
-                    .padding(.bottom, 24)
+                    .padding(.bottom, DS.Spacing.xxl)
 
                 Text("よむエモ")
-                    .font(.custom("HiraginoSans-W7", size: 48))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color(hex: "818cf8"), Color(hex: "ec4899")],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .padding(.bottom, 12)
+                    .font(DS.Fonts.serifBold(48))
+                    .foregroundStyle(DS.Gradients.brandTitle)
+                    .padding(.bottom, DS.Spacing.md)
 
                 Text("100年前の感情を、覗いてみよう。")
-                    .font(.system(size: 17, weight: .light))
-                    .foregroundColor(Color(hex: "9ca3af"))
-                    .padding(.bottom, 4)
+                    .font(DS.Fonts.body(17, weight: .light))
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .padding(.bottom, DS.Spacing.xs)
 
                 Text("純文学 × タップ読書 × バイブス解説")
-                    .font(.system(size: 13))
-                    .foregroundColor(Color(hex: "9ca3af").opacity(0.6))
+                    .font(DS.Fonts.body(13))
+                    .foregroundColor(DS.Colors.textSecondary.opacity(0.6))
                     .padding(.bottom, 48)
 
                 NavigationLink(destination: HomeView()) {
                     Text("はじめる")
-                        .font(.system(size: 18, weight: .medium))
+                        .font(DS.Fonts.body(18, weight: .medium))
                         .foregroundColor(.white)
                         .frame(width: 200, height: 56)
-                        .background(Color(hex: "6366f1"))
+                        .background(DS.Colors.accentIndigo)
                         .clipShape(Capsule())
-                        .shadow(color: Color(hex: "6366f1").opacity(0.4), radius: 20, y: 4)
+                        .shadow(color: DS.Colors.accentIndigo.opacity(0.4), radius: 20, y: 4)
                 }
 
                 Spacer()
 
-                HStack(spacing: 24) {
+                HStack(spacing: DS.Spacing.xxl) {
                     ForEach(["太宰治", "芥川龍之介", "夏目漱石", "宮沢賢治"], id: \.self) { name in
                         Text(name)
-                            .font(.system(size: 11))
-                            .foregroundColor(Color(hex: "9ca3af").opacity(0.4))
+                            .font(DS.Fonts.body(11))
+                            .foregroundColor(DS.Colors.textSecondary.opacity(0.4))
                     }
                 }
                 .padding(.bottom, 40)

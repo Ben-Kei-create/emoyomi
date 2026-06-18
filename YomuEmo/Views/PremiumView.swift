@@ -16,7 +16,7 @@ struct PremiumView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "0a0e1a").ignoresSafeArea()
+            DS.Colors.bgPrimary.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -34,131 +34,100 @@ struct PremiumView: View {
         HStack {
             Button(action: { dismiss() }) {
                 Text("← 戻る")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color(hex: "9ca3af"))
+                    .font(DS.Fonts.body(14))
+                    .foregroundColor(DS.Colors.textSecondary)
             }
             Spacer()
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 16)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.top, DS.Spacing.md)
+        .padding(.bottom, DS.Spacing.lg)
     }
 
     private var titleSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DS.Spacing.md) {
             Text("✦ Premium")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundColor(Color(hex: "f59e0b"))
-                .padding(.horizontal, 16)
+                .font(DS.Fonts.small().weight(.medium))
+                .foregroundColor(DS.Colors.accentWarm)
+                .padding(.horizontal, DS.Spacing.lg)
                 .padding(.vertical, 6)
                 .background(
-                    Capsule().fill(Color(hex: "f59e0b").opacity(0.1))
+                    Capsule().fill(DS.Colors.accentWarm.opacity(0.1))
                 )
 
-            VStack(spacing: 4) {
+            VStack(spacing: DS.Spacing.xs) {
                 Text("すべての文学体験を")
-                    .font(.custom("HiraginoSans-W7", size: 26))
-                    .foregroundColor(Color(hex: "e8e2d6"))
+                    .font(DS.Fonts.serifBold(26))
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 Text("解放する")
-                    .font(.custom("HiraginoSans-W7", size: 26))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color(hex: "818cf8"), Color(hex: "ec4899")],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                    .font(DS.Fonts.serifBold(26))
+                    .foregroundStyle(DS.Gradients.brandTitle)
             }
 
             Text("買い切りで、広告なし。ずっと使える。")
-                .font(.system(size: 14))
-                .foregroundColor(Color(hex: "9ca3af"))
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textSecondary)
         }
-        .padding(.bottom, 32)
+        .padding(.bottom, DS.Spacing.xxxl)
     }
 
     private var featuresGrid: some View {
         LazyVGrid(columns: [
-            GridItem(.flexible(), spacing: 12),
-            GridItem(.flexible(), spacing: 12),
-        ], spacing: 12) {
+            GridItem(.flexible(), spacing: DS.Spacing.md),
+            GridItem(.flexible(), spacing: DS.Spacing.md),
+        ], spacing: DS.Spacing.md) {
             ForEach(Array(features.enumerated()), id: \.offset) { _, feature in
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: DS.Spacing.sm) {
                     Text(feature.icon)
                         .font(.system(size: 28))
 
                     Text(feature.title)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(Color(hex: "e8e2d6"))
+                        .font(DS.Fonts.body(14, weight: .medium))
+                        .foregroundColor(DS.Colors.textPrimary)
 
                     Text(feature.desc)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color(hex: "9ca3af"))
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(hex: "1a1f35").opacity(0.6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-                        )
-                )
+                .padding(DS.Spacing.lg)
+                .glassCard()
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 32)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.bottom, DS.Spacing.xxxl)
     }
 
     private var purchaseSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DS.Spacing.md) {
             if purchased || store.isPremium {
-                VStack(spacing: 8) {
+                VStack(spacing: DS.Spacing.sm) {
                     Text("🎉")
                         .font(.system(size: 48))
                     Text("Premium有効")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(Color(hex: "e8e2d6"))
+                        .font(DS.Fonts.body(18, weight: .medium))
+                        .foregroundColor(DS.Colors.textPrimary)
                     Text("すべての機能が使えます")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "9ca3af"))
+                        .font(DS.Fonts.body(14))
+                        .foregroundColor(DS.Colors.textSecondary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(24)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(hex: "1a1f35").opacity(0.6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-                        )
-                )
+                .padding(DS.Spacing.xxl)
+                .glassCard()
             } else {
-                Button(action: {
+                PrimaryButton(title: "¥980 で購入（買い切り）") {
                     store.isPremium = true
                     purchased = true
-                }) {
-                    Text("¥980 で購入（買い切り）")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(
-                            Capsule()
-                                .fill(Color(hex: "6366f1"))
-                                .shadow(color: Color(hex: "6366f1").opacity(0.4), radius: 16, y: 4)
-                        )
                 }
 
                 Text("一度の購入で、すべての機能がずっと使えます。\n読書中の広告は表示されません。")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(hex: "9ca3af").opacity(0.5))
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.textSecondary.opacity(0.5))
                     .multilineTextAlignment(.center)
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, DS.Spacing.xl)
         .padding(.bottom, 40)
     }
 }

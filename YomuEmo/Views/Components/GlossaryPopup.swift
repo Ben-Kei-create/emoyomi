@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct GlossaryPopupView: View {
+struct GlossaryPopup: View {
     let entry: GlossaryEntry
     let onClose: () -> Void
 
@@ -14,73 +14,73 @@ struct GlossaryPopupView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(entry.word)
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundColor(Color(hex: "e8e2d6"))
+                            .font(DS.Fonts.body(22, weight: .bold))
+                            .foregroundColor(DS.Colors.textPrimary)
 
                         Text(entry.reading)
-                            .font(.system(size: 13))
-                            .foregroundColor(Color(hex: "818cf8"))
+                            .font(DS.Fonts.body(13))
+                            .foregroundColor(DS.Colors.accentNeon)
                     }
 
                     Spacer()
 
                     Button(action: onClose) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: "9ca3af"))
+                        Image(systemName: AssetNames.Icons.close)
+                            .font(DS.Fonts.small().weight(.medium))
+                            .foregroundColor(DS.Colors.textSecondary)
                             .frame(width: 32, height: 32)
                             .background(Circle().fill(Color.white.opacity(0.05)))
                     }
                 }
-                .padding(.bottom, 16)
+                .padding(.bottom, DS.Spacing.lg)
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     Text("意味")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(Color(hex: "9ca3af"))
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
                         .textCase(.uppercase)
                         .tracking(1)
 
                     Text(entry.meaning)
-                        .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "e8e2d6"))
+                        .font(DS.Fonts.body(14))
+                        .foregroundColor(DS.Colors.textPrimary)
                 }
-                .padding(.bottom, 16)
+                .padding(.bottom, DS.Spacing.lg)
 
                 Rectangle()
-                    .fill(Color.white.opacity(0.08))
+                    .fill(DS.Colors.borderSubtle)
                     .frame(height: 1)
-                    .padding(.bottom, 16)
+                    .padding(.bottom, DS.Spacing.lg)
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     Text("バイブス訳")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(Color(hex: "ec4899"))
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.accentPink)
                         .textCase(.uppercase)
                         .tracking(1)
 
                     Text(entry.vibes)
-                        .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "e8e2d6"))
+                        .font(DS.Fonts.body(14))
+                        .foregroundColor(DS.Colors.textPrimary)
                 }
             }
-            .padding(20)
+            .padding(DS.Spacing.xl)
             .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "1a1f35").opacity(0.95))
+                RoundedRectangle(cornerRadius: DS.Radius.xl)
+                    .fill(DS.Colors.bgCard.opacity(0.95))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: DS.Radius.xl)
+                            .strokeBorder(DS.Colors.borderSubtle, lineWidth: 1)
                     )
             )
-            .padding(.horizontal, 24)
+            .padding(.horizontal, DS.Spacing.xxl)
             .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }
 }
 
 #Preview {
-    GlossaryPopupView(
+    GlossaryPopup(
         entry: GlossaryEntry(
             word: "転輾",
             reading: "てんてん",

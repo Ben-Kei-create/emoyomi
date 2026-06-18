@@ -24,12 +24,20 @@
 		A1B2C3D4E5F6000100000F /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200000F /* CompletionView.swift */; };
 		A1B2C3D4E5F60001000010 /* AuthorProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000010 /* AuthorProfileView.swift */; };
 		A1B2C3D4E5F60001000011 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000011 /* PremiumView.swift */; };
-		A1B2C3D4E5F60001000012 /* EmotionMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000012 /* EmotionMeterView.swift */; };
-		A1B2C3D4E5F60001000013 /* GlossaryPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000013 /* GlossaryPopupView.swift */; };
+		A1B2C3D4E5F60001000012 /* EmotionMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000012 /* EmotionMeter.swift */; };
+		A1B2C3D4E5F60001000013 /* GlossaryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */; };
 		A1B2C3D4E5F60001000014 /* EmotionTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */; };
-		A1B2C3D4E5F60001000015 /* WorkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000015 /* WorkCardView.swift */; };
+
 		A1B2C3D4E5F60001000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000016 /* Assets.xcassets */; };
 		A1B2C3D4E5F60001000017 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */; };
+		A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */; };
+		A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000019 /* AppRoute.swift */; };
+		A1B2C3D4E5F6000100001A /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001A /* AssetNames.swift */; };
+		A1B2C3D4E5F6000100001B /* OriginalEasyToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */; };
+		A1B2C3D4E5F6000100001C /* ReadingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001C /* ReadingCard.swift */; };
+		A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001D /* PrimaryButton.swift */; };
+		A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001E /* MainTabView.swift */; };
+		A1B2C3D4E5F6000100001F /* WorkCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001F /* WorkCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,12 +58,20 @@
 		A1B2C3D4E5F6000200000F /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000010 /* AuthorProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorProfileView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000011 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60002000012 /* EmotionMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionMeterView.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60002000013 /* GlossaryPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryPopupView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000012 /* EmotionMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionMeter.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryPopup.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTagButton.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60002000015 /* WorkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkCardView.swift; sourceTree = "<group>"; };
+
 		A1B2C3D4E5F60002000016 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuEmoDesignSystem.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000019 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001A /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalEasyToggle.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001C /* ReadingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200001F /* WorkCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +102,9 @@
 				A1B2C3D4E5F60005000004 /* Data */,
 				A1B2C3D4E5F60005000005 /* ViewModels */,
 				A1B2C3D4E5F60005000006 /* Views */,
+				A1B2C3D4E5F6000500000A /* Design */,
+				A1B2C3D4E5F6000500000B /* Navigation */,
+				A1B2C3D4E5F6000500000C /* Assets */,
 				A1B2C3D4E5F60002000016 /* Assets.xcassets */,
 				A1B2C3D4E5F60005000008 /* Preview Content */,
 			);
@@ -132,6 +151,7 @@
 				A1B2C3D4E5F6000200000F /* CompletionView.swift */,
 				A1B2C3D4E5F60002000010 /* AuthorProfileView.swift */,
 				A1B2C3D4E5F60002000011 /* PremiumView.swift */,
+				A1B2C3D4E5F6000200001E /* MainTabView.swift */,
 				A1B2C3D4E5F60005000007 /* Components */,
 			);
 			path = Views;
@@ -140,10 +160,14 @@
 		A1B2C3D4E5F60005000007 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				A1B2C3D4E5F60002000012 /* EmotionMeterView.swift */,
-				A1B2C3D4E5F60002000013 /* GlossaryPopupView.swift */,
+				A1B2C3D4E5F60002000012 /* EmotionMeter.swift */,
+				A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */,
 				A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */,
-				A1B2C3D4E5F60002000015 /* WorkCardView.swift */,
+
+				A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */,
+				A1B2C3D4E5F6000200001C /* ReadingCard.swift */,
+				A1B2C3D4E5F6000200001D /* PrimaryButton.swift */,
+				A1B2C3D4E5F6000200001F /* WorkCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -154,6 +178,30 @@
 				A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F6000500000A /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F6000500000B /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60002000019 /* AppRoute.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F6000500000C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F6000200001A /* AssetNames.swift */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		A1B2C3D4E5F60005000009 /* Products */ = {
@@ -252,10 +300,18 @@
 				A1B2C3D4E5F6000100000F /* CompletionView.swift in Sources */,
 				A1B2C3D4E5F60001000010 /* AuthorProfileView.swift in Sources */,
 				A1B2C3D4E5F60001000011 /* PremiumView.swift in Sources */,
-				A1B2C3D4E5F60001000012 /* EmotionMeterView.swift in Sources */,
-				A1B2C3D4E5F60001000013 /* GlossaryPopupView.swift in Sources */,
+				A1B2C3D4E5F60001000012 /* EmotionMeter.swift in Sources */,
+				A1B2C3D4E5F60001000013 /* GlossaryPopup.swift in Sources */,
 				A1B2C3D4E5F60001000014 /* EmotionTagButton.swift in Sources */,
-				A1B2C3D4E5F60001000015 /* WorkCardView.swift in Sources */,
+
+				A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */,
+				A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */,
+				A1B2C3D4E5F6000100001A /* AssetNames.swift in Sources */,
+				A1B2C3D4E5F6000100001B /* OriginalEasyToggle.swift in Sources */,
+				A1B2C3D4E5F6000100001C /* ReadingCard.swift in Sources */,
+				A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */,
+				A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */,
+				A1B2C3D4E5F6000100001F /* WorkCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

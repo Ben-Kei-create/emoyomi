@@ -10,7 +10,7 @@ struct AuthorProfileView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "0a0e1a").ignoresSafeArea()
+            DS.Colors.bgPrimary.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -26,52 +26,52 @@ struct AuthorProfileView: View {
     private var backButton: some View {
         Button(action: { dismiss() }) {
             Text("← 戻る")
-                .font(.system(size: 14))
-                .foregroundColor(Color(hex: "9ca3af"))
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textSecondary)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 16)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.top, DS.Spacing.md)
+        .padding(.bottom, DS.Spacing.lg)
     }
 
     private var profileCard: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top, spacing: 16) {
+        VStack(alignment: .leading, spacing: DS.Spacing.lg) {
+            HStack(alignment: .top, spacing: DS.Spacing.lg) {
                 Text(author.icon)
                     .font(.system(size: 36))
                     .frame(width: 64, height: 64)
                     .background(
-                        Circle().fill(Color(hex: "6366f1").opacity(0.2))
+                        Circle().fill(DS.Colors.accentIndigo.opacity(0.2))
                     )
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     Text(author.name)
-                        .font(.custom("HiraginoSans-W7", size: 24))
-                        .foregroundColor(Color(hex: "e8e2d6"))
+                        .font(DS.Fonts.serifBold(24))
+                        .foregroundColor(DS.Colors.textPrimary)
 
                     Text("\(author.born)–\(author.died)")
-                        .font(.system(size: 12))
-                        .foregroundColor(Color(hex: "9ca3af"))
+                        .font(DS.Fonts.small())
+                        .foregroundColor(DS.Colors.textSecondary)
                 }
 
                 Spacer()
             }
 
             Text(author.bio)
-                .font(.system(size: 14))
-                .foregroundColor(Color(hex: "e8e2d6"))
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textPrimary)
                 .lineSpacing(4)
 
-            FlowLayout(spacing: 8) {
+            FlowLayout(spacing: DS.Spacing.sm) {
                 ForEach(author.tags) { tag in
-                    HStack(spacing: 4) {
+                    HStack(spacing: DS.Spacing.xs) {
                         Text(tag.emoji)
-                            .font(.system(size: 12))
+                            .font(DS.Fonts.small())
                         Text(tag.rawValue)
-                            .font(.system(size: 12))
+                            .font(DS.Fonts.small())
                     }
                     .foregroundColor(tag.color)
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, DS.Spacing.md)
                     .padding(.vertical, 6)
                     .background(
                         Capsule().fill(tag.color.opacity(0.15))
@@ -79,39 +79,29 @@ struct AuthorProfileView: View {
                 }
             }
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(hex: "1a1f35").opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-                )
-        )
-        .padding(.horizontal, 20)
+        .padding(DS.Spacing.xl)
+        .glassCard(cornerRadius: DS.Radius.xl)
+        .padding(.horizontal, DS.Spacing.xl)
         .padding(.bottom, 28)
     }
 
     private var worksSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
             Text("作品")
-                .font(.system(size: 11, weight: .medium))
-                .foregroundColor(Color(hex: "9ca3af"))
-                .textCase(.uppercase)
-                .tracking(1)
-                .padding(.horizontal, 20)
+                .sectionHeader()
+                .padding(.horizontal, DS.Spacing.xl)
 
-            LazyVStack(spacing: 12) {
+            LazyVStack(spacing: DS.Spacing.md) {
                 ForEach(authorWorks) { work in
                     NavigationLink(destination: ReadingView(work: work)) {
-                        WorkCardView(work: work)
+                        WorkCard(work: work)
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, DS.Spacing.xl)
         }
-        .padding(.bottom, 32)
+        .padding(.bottom, DS.Spacing.xxxl)
     }
 }
 

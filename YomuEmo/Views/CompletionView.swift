@@ -7,7 +7,7 @@ struct CompletionView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "0a0e1a").ignoresSafeArea()
+            DS.Colors.bgPrimary.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -15,81 +15,81 @@ struct CompletionView: View {
 
                     Text(work.coverEmoji)
                         .font(.system(size: 64))
-                        .padding(.bottom, 20)
+                        .padding(.bottom, DS.Spacing.xl)
                         .opacity(showContent ? 1 : 0)
                         .scaleEffect(showContent ? 1 : 0.5)
 
                     Text("読了")
-                        .font(.custom("HiraginoSans-W7", size: 28))
-                        .foregroundColor(Color(hex: "e8e2d6"))
-                        .padding(.bottom, 8)
+                        .font(DS.Fonts.serifBold(28))
+                        .foregroundColor(DS.Colors.textPrimary)
+                        .padding(.bottom, DS.Spacing.sm)
                         .opacity(showContent ? 1 : 0)
                         .offset(y: showContent ? 0 : 16)
 
                     Text("\(work.title) ── \(work.authorName)")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color(hex: "9ca3af"))
-                        .padding(.bottom, 32)
+                        .font(DS.Fonts.body(14))
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .padding(.bottom, DS.Spacing.xxxl)
                         .opacity(showContent ? 1 : 0)
                         .offset(y: showContent ? 0 : 16)
 
-                    VStack(spacing: 12) {
+                    VStack(spacing: DS.Spacing.md) {
                         afterwordCard(
                             label: "テーマ",
                             text: work.afterword.theme,
-                            color: Color(hex: "818cf8")
+                            color: DS.Colors.accentNeon
                         )
 
                         afterwordCard(
                             label: "刺さるポイント",
                             text: work.afterword.point,
-                            color: Color(hex: "ec4899")
+                            color: DS.Colors.accentPink
                         )
 
                         afterwordCard(
                             label: "現代との共通点",
                             text: work.afterword.modern,
-                            color: Color(hex: "f59e0b")
+                            color: DS.Colors.accentWarm
                         )
 
                         emotionTagsCard
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, DS.Spacing.xl)
                     .opacity(showContent ? 1 : 0)
                     .offset(y: showContent ? 0 : 24)
 
-                    HStack(spacing: 12) {
+                    HStack(spacing: DS.Spacing.md) {
                         NavigationLink(destination: AuthorProfileView(
                             author: AuthorsData.find(by: work.authorId)!
                         )) {
                             Text("文豪を見る")
-                                .font(.system(size: 14))
-                                .foregroundColor(Color(hex: "9ca3af"))
+                                .font(DS.Fonts.body(14))
+                                .foregroundColor(DS.Colors.textSecondary)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 48)
                                 .background(
                                     Capsule()
-                                        .fill(Color(hex: "1a1f35").opacity(0.6))
+                                        .fill(DS.Colors.bgCard.opacity(0.6))
                                         .overlay(
                                             Capsule()
-                                                .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
+                                                .strokeBorder(DS.Colors.borderSubtle, lineWidth: 1)
                                         )
                                 )
                         }
 
                         Button(action: { dismiss() }) {
                             Text("ホームに戻る")
-                                .font(.system(size: 14, weight: .medium))
+                                .font(DS.Fonts.body(14, weight: .medium))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 48)
                                 .background(
-                                    Capsule().fill(Color(hex: "6366f1"))
+                                    Capsule().fill(DS.Colors.accentIndigo)
                                 )
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 32)
+                    .padding(.horizontal, DS.Spacing.xl)
+                    .padding(.top, DS.Spacing.xxxl)
                     .padding(.bottom, 40)
                 }
             }
@@ -103,48 +103,41 @@ struct CompletionView: View {
     }
 
     private func afterwordCard(label: String, text: String, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             Text(label)
-                .font(.system(size: 10, weight: .medium))
+                .font(DS.Fonts.caption())
                 .foregroundColor(color)
                 .textCase(.uppercase)
                 .tracking(1)
 
             Text(text)
-                .font(.system(size: 14))
-                .foregroundColor(Color(hex: "e8e2d6"))
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textPrimary)
                 .lineSpacing(4)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(hex: "1a1f35").opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-                )
-        )
+        .padding(DS.Spacing.xl)
+        .glassCard()
     }
 
     private var emotionTagsCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             Text("この作品の感情")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundColor(Color(hex: "9ca3af"))
+                .font(DS.Fonts.caption())
+                .foregroundColor(DS.Colors.textSecondary)
                 .textCase(.uppercase)
                 .tracking(1)
 
-            FlowLayout(spacing: 8) {
+            FlowLayout(spacing: DS.Spacing.sm) {
                 ForEach(work.tags) { tag in
-                    HStack(spacing: 4) {
+                    HStack(spacing: DS.Spacing.xs) {
                         Text(tag.emoji)
-                            .font(.system(size: 12))
+                            .font(DS.Fonts.small())
                         Text(tag.rawValue)
-                            .font(.system(size: 12))
+                            .font(DS.Fonts.small())
                     }
-                    .foregroundColor(Color(hex: "9ca3af"))
-                    .padding(.horizontal, 12)
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.md)
                     .padding(.vertical, 6)
                     .background(
                         Capsule().fill(Color.white.opacity(0.05))
@@ -153,15 +146,8 @@ struct CompletionView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(hex: "1a1f35").opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-                )
-        )
+        .padding(DS.Spacing.lg)
+        .glassCard()
     }
 }
 

@@ -2,7 +2,7 @@ import SwiftUI
 
 enum TextMode: String {
     case original = "原文"
-    case modern = "やさしい日本語"
+    case easy = "やさしい日本語"
 }
 
 @Observable
@@ -23,8 +23,8 @@ final class ReadingViewModel {
 
     var displayText: String {
         switch textMode {
-        case .original: return currentSegment.text
-        case .modern: return currentSegment.modernText
+        case .original: return currentSegment.originalText
+        case .easy: return currentSegment.easyText
         }
     }
 
@@ -45,7 +45,7 @@ final class ReadingViewModel {
     }
 
     func toggleTextMode() {
-        textMode = textMode == .original ? .modern : .original
+        textMode = textMode == .original ? .easy : .original
     }
 
     func next() {

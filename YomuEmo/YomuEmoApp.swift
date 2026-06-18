@@ -6,6 +6,9 @@ struct YomuEmoApp: App {
         WindowGroup {
             NavigationStack {
                 WelcomeView()
+                    .navigationDestination(for: AppRoute.self) { route in
+                        route.destination
+                    }
             }
             .preferredColorScheme(.dark)
         }

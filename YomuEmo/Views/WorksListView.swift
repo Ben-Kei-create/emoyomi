@@ -18,7 +18,7 @@ struct WorksListView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "0a0e1a").ignoresSafeArea()
+            DS.Colors.bgPrimary.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -32,43 +32,43 @@ struct WorksListView: View {
     }
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             Button(action: { dismiss() }) {
                 Text("← 戻る")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color(hex: "9ca3af"))
+                    .font(DS.Fonts.body(14))
+                    .foregroundColor(DS.Colors.textSecondary)
             }
 
             Text("作品一覧")
-                .font(.custom("HiraginoSans-W7", size: 24))
-                .foregroundColor(Color(hex: "e8e2d6"))
+                .font(DS.Fonts.serifBold(24))
+                .foregroundColor(DS.Colors.textPrimary)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 20)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.top, DS.Spacing.md)
+        .padding(.bottom, DS.Spacing.xl)
     }
 
     private var filterSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: DS.Spacing.sm) {
                 Button(action: {
                     withAnimation { selectedTag = nil }
                 }) {
                     Text("すべて")
-                        .font(.system(size: 12))
-                        .foregroundColor(selectedTag == nil ? .white : Color(hex: "9ca3af"))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
+                        .font(DS.Fonts.small())
+                        .foregroundColor(selectedTag == nil ? .white : DS.Colors.textSecondary)
+                        .padding(.horizontal, DS.Spacing.md)
+                        .padding(.vertical, DS.Spacing.sm)
                         .background(
                             Capsule().fill(
                                 selectedTag == nil
-                                    ? Color(hex: "6366f1")
-                                    : Color(hex: "1a1f35").opacity(0.6)
+                                    ? DS.Colors.accentIndigo
+                                    : DS.Colors.bgCard.opacity(0.6)
                             )
                         )
                         .overlay(
                             Capsule().strokeBorder(
-                                selectedTag == nil ? Color.clear : Color.white.opacity(0.08),
+                                selectedTag == nil ? Color.clear : DS.Colors.borderSubtle,
                                 lineWidth: 1
                             )
                         )
@@ -84,29 +84,29 @@ struct WorksListView: View {
                     )
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, DS.Spacing.xl)
         }
-        .padding(.bottom, 20)
+        .padding(.bottom, DS.Spacing.xl)
     }
 
     private var worksSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
             Text("\(filteredWorks.count)作品")
-                .font(.system(size: 12))
-                .foregroundColor(Color(hex: "9ca3af"))
-                .padding(.horizontal, 20)
+                .font(DS.Fonts.small())
+                .foregroundColor(DS.Colors.textSecondary)
+                .padding(.horizontal, DS.Spacing.xl)
 
-            LazyVStack(spacing: 12) {
+            LazyVStack(spacing: DS.Spacing.md) {
                 ForEach(filteredWorks) { work in
                     NavigationLink(destination: ReadingView(work: work)) {
-                        WorkCardView(work: work)
+                        WorkCard(work: work)
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, DS.Spacing.xl)
         }
-        .padding(.bottom, 32)
+        .padding(.bottom, DS.Spacing.xxxl)
     }
 }
 
