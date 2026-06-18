@@ -67,6 +67,31 @@ struct ReadingView: View {
                 }
             }
 
+            if vm.showXPToast {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("+\(vm.xpToastAmount) XP")
+                            .font(DS.Fonts.body(12, weight: .medium))
+                            .foregroundColor(DS.Colors.accentWarm)
+                            .padding(.horizontal, DS.Spacing.md)
+                            .padding(.vertical, DS.Spacing.xs)
+                            .background(
+                                Capsule()
+                                    .fill(DS.Colors.bgCard.opacity(0.9))
+                                    .overlay(
+                                        Capsule()
+                                            .strokeBorder(DS.Colors.accentWarm.opacity(0.2), lineWidth: 1)
+                                    )
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                    }
+                    .padding(.horizontal, DS.Spacing.xl)
+                    .padding(.top, 60)
+                    Spacer()
+                }
+            }
+
             if vm.showPoll, let poll = vm.currentPoll {
                 ZStack {
                     Color.black.opacity(0.5)

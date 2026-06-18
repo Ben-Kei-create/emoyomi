@@ -19,6 +19,8 @@ final class ReadingViewModel {
     var quoteSaved: Bool = false
     var xpGained: Int = 0
     var newEmotionsDiscovered: [EmotionTag] = []
+    var xpToastAmount: Int = 0
+    var showXPToast: Bool = false
 
     private let store = StoreManager.shared
 
@@ -85,15 +87,21 @@ final class ReadingViewModel {
         store.recordDailyReading()
         store.recordModeUsed(readingMode)
 
-        let segmentXP = store.addXP(.readSegment)
-        xpGained += segmentXP
+        var roundXP = store.addXP(.readSegment)
 
         for (tag, score) in currentSegment.emotionScores where score >= 20 {
             let isNew = store.recordEmotionEncounter(tag: tag, intensity: score, workId: work.id)
             if isNew {
                 newEmotionsDiscovered.append(tag)
-                store.addXP(.discoverEmotion)
+                roundXP += store.addXP(.discoverEmotion)
             }
+        }
+
+        xpGained += roundXP
+        xpToastAmount = roundXP
+        showXPToast = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            withAnimation(.easeOut(duration: 0.3)) { self.showXPToast = false }
         }
 
         if currentIndex >= work.segments.count - 1 {

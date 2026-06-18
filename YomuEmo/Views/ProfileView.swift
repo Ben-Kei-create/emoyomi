@@ -14,6 +14,7 @@ struct ProfileView: View {
                     streakSection
                     statsSection
                     achievementsSection
+                    premiumSection
                 }
             }
         }
@@ -39,7 +40,7 @@ struct ProfileView: View {
 
     private var streakSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            Text("読書ストリーク")
+            Text("読書の記録")
                 .sectionHeader()
                 .padding(.horizontal, DS.Spacing.xl)
 
@@ -51,7 +52,7 @@ struct ProfileView: View {
 
     private var statsSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            Text("読書統計")
+            Text("あなたの軌跡")
                 .sectionHeader()
                 .padding(.horizontal, DS.Spacing.xl)
 
@@ -71,7 +72,7 @@ struct ProfileView: View {
                 .font(.system(size: 24))
 
             Text(value)
-                .font(DS.Fonts.body(24, weight: .bold))
+                .font(DS.Fonts.serifBold(24))
                 .foregroundColor(DS.Colors.textPrimary)
 
             Text(label)
@@ -100,7 +101,7 @@ struct ProfileView: View {
                 categorySection(category)
             }
         }
-        .padding(.bottom, DS.Spacing.xxxl)
+        .padding(.bottom, DS.Spacing.xl)
     }
 
     private func categorySection(_ category: Achievement.AchievementCategory) -> some View {
@@ -130,6 +131,42 @@ struct ProfileView: View {
             }
         }
         .padding(.bottom, DS.Spacing.sm)
+    }
+
+    private var premiumSection: some View {
+        NavigationLink(destination: PremiumView()) {
+            HStack(spacing: DS.Spacing.md) {
+                Text("⭐")
+                    .font(.system(size: 20))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Premium")
+                        .font(DS.Fonts.body(14, weight: .medium))
+                        .foregroundColor(DS.Colors.accentWarm)
+                    Text("すべての作品と機能をアンロック")
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+
+                Spacer()
+
+                Text("→")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(DS.Colors.accentWarm.opacity(0.6))
+            }
+            .padding(DS.Spacing.xl)
+            .background(
+                RoundedRectangle(cornerRadius: DS.Radius.lg)
+                    .fill(DS.Colors.bgCard.opacity(0.6))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: DS.Radius.lg)
+                            .strokeBorder(DS.Colors.accentWarm.opacity(0.15), lineWidth: 1)
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, DS.Spacing.xl)
+        .padding(.bottom, DS.Spacing.xxxl)
     }
 }
 

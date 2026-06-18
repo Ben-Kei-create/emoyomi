@@ -35,10 +35,10 @@ enum EmotionMastery: String, Codable {
 
     var icon: String {
         switch self {
-        case .undiscovered: return "?"
-        case .encountered: return "!"
-        case .familiar: return "!!"
-        case .mastered: return "MAX"
+        case .undiscovered: return "─"
+        case .encountered: return "芽"
+        case .familiar: return "花"
+        case .mastered: return "実"
         }
     }
 

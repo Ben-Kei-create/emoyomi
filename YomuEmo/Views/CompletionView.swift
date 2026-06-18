@@ -114,17 +114,24 @@ struct CompletionView: View {
 
     private var xpSummaryCard: some View {
         VStack(spacing: DS.Spacing.md) {
-            Text("+\(100) XP")
-                .font(DS.Fonts.body(28, weight: .bold))
+            HStack(spacing: DS.Spacing.sm) {
+                Text("📖")
+                    .font(.system(size: 16))
+                Text("読書の経験値")
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.accentNeon)
+                    .textCase(.uppercase)
+                    .tracking(1)
+            }
+
+            Text("+100 XP")
+                .font(DS.Fonts.serifBold(24))
                 .foregroundStyle(DS.Gradients.xpBar)
 
-            Text("作品読了ボーナス！")
-                .font(DS.Fonts.body(12))
-                .foregroundColor(DS.Colors.textSecondary)
-
             XPBar(xp: store.totalXP)
-                .padding(.top, DS.Spacing.sm)
+                .padding(.top, DS.Spacing.xs)
         }
+        .frame(maxWidth: .infinity)
         .padding(DS.Spacing.xl)
         .glassCard()
         .padding(.horizontal, DS.Spacing.xl)

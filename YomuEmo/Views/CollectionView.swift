@@ -12,6 +12,10 @@ struct CollectionView: View {
         store.savedQuotes
     }
 
+    private var completionRatio: Double {
+        Double(collection.count) / Double(EmotionTag.allCases.count)
+    }
+
     var body: some View {
         ZStack {
             DS.Colors.bgPrimary.ignoresSafeArea()
@@ -19,7 +23,7 @@ struct CollectionView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     headerSection
-                    collectionSummary
+                    completionRing
                     segmentPicker
                     if selectedTab == 0 {
                         emotionBookSection
@@ -32,13 +36,15 @@ struct CollectionView: View {
         .navigationBarHidden(true)
     }
 
+    // MARK: - Header
+
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             Text("コレクション")
                 .font(DS.Fonts.serifBold(24))
                 .foregroundColor(DS.Colors.textPrimary)
 
-            Text("集めた感情と名言")
+            Text("文学の中で出会った感情たち")
                 .font(DS.Fonts.body(14))
                 .foregroundColor(DS.Colors.textSecondary)
         }
@@ -47,41 +53,77 @@ struct CollectionView: View {
         .padding(.bottom, DS.Spacing.xl)
     }
 
-    private var collectionSummary: some View {
-        HStack(spacing: 0) {
-            summaryItem(
-                value: "\(collection.count)/\(EmotionTag.allCases.count)",
-                label: "感情発見",
-                color: DS.Colors.accentPink
-            )
-            summaryItem(
-                value: "\(quotes.count)",
-                label: "名言保存",
-                color: DS.Colors.accentWarm
-            )
-            summaryItem(
-                value: "\(collection.filter { $0.masteryLevel == .mastered }.count)",
-                label: "共鳴",
-                color: DS.Colors.accentLavender
-            )
+    // MARK: - Completion Ring
+
+    private var completionRing: some View {
+        HStack(spacing: DS.Spacing.xxl) {
+            ZStack {
+                Circle()
+                    .stroke(Color.white.opacity(0.06), lineWidth: 6)
+                    .frame(width: 80, height: 80)
+
+                Circle()
+                    .trim(from: 0, to: completionRatio)
+                    .stroke(
+                        AngularGradient(
+                            colors: [DS.Colors.accentPink, DS.Colors.accentLavender, DS.Colors.accentIndigo],
+                            center: .center
+                        ),
+                        style: StrokeStyle(lineWidth: 6, lineCap: .round)
+                    )
+                    .frame(width: 80, height: 80)
+                    .rotationEffect(.degrees(-90))
+
+                VStack(spacing: 0) {
+                    Text("\(collection.count)")
+                        .font(DS.Fonts.serifBold(24))
+                        .foregroundColor(DS.Colors.textPrimary)
+                    Text("/\(EmotionTag.allCases.count)")
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+                collectionStat(
+                    label: "発見した感情",
+                    value: "\(collection.count)種類",
+                    color: DS.Colors.accentPink
+                )
+                collectionStat(
+                    label: "共鳴した感情",
+                    value: "\(collection.filter { $0.masteryLevel == .mastered }.count)種類",
+                    color: DS.Colors.accentLavender
+                )
+                collectionStat(
+                    label: "保存した名言",
+                    value: "\(quotes.count)件",
+                    color: DS.Colors.accentWarm
+                )
+            }
         }
-        .padding(DS.Spacing.lg)
+        .padding(DS.Spacing.xl)
         .glassCard()
         .padding(.horizontal, DS.Spacing.xl)
         .padding(.bottom, DS.Spacing.xl)
     }
 
-    private func summaryItem(value: String, label: String, color: Color) -> some View {
-        VStack(spacing: DS.Spacing.xs) {
-            Text(value)
-                .font(DS.Fonts.body(20, weight: .bold))
-                .foregroundColor(color)
+    private func collectionStat(label: String, value: String, color: Color) -> some View {
+        HStack(spacing: DS.Spacing.sm) {
+            Circle()
+                .fill(color)
+                .frame(width: 6, height: 6)
             Text(label)
                 .font(DS.Fonts.caption())
                 .foregroundColor(DS.Colors.textSecondary)
+            Spacer()
+            Text(value)
+                .font(DS.Fonts.body(12, weight: .medium))
+                .foregroundColor(DS.Colors.textPrimary)
         }
-        .frame(maxWidth: .infinity)
     }
+
+    // MARK: - Segment Picker
 
     private var segmentPicker: some View {
         HStack(spacing: 0) {
@@ -133,7 +175,9 @@ struct CollectionView: View {
             }
             .padding(.horizontal, DS.Spacing.xl)
 
-            if !collection.isEmpty {
+            if collection.isEmpty {
+                emotionEmptyState
+            } else {
                 recentDiscoveries
             }
         }
@@ -156,6 +200,18 @@ struct CollectionView: View {
         .padding(.horizontal, DS.Spacing.xl)
     }
 
+    private var emotionEmptyState: some View {
+        VStack(spacing: DS.Spacing.lg) {
+            Text("作品を読むと、出会った感情が\nここに集まっていきます")
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineSpacing(4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, DS.Spacing.xxl)
+    }
+
     private var recentDiscoveries: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.md) {
             Text("最近の発見")
@@ -174,9 +230,12 @@ struct CollectionView: View {
                                     .font(DS.Fonts.body(14, weight: .medium))
                                     .foregroundColor(DS.Colors.textPrimary)
 
-                                Text("最大強度: \(entry.maxIntensity)  |  \(entry.encounters)回出会い")
-                                    .font(DS.Fonts.caption())
-                                    .foregroundColor(DS.Colors.textSecondary)
+                                HStack(spacing: DS.Spacing.sm) {
+                                    intensityDots(entry.averageIntensity)
+                                    Text("\(entry.encounters)回出会い")
+                                        .font(DS.Fonts.caption())
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
                             }
 
                             Spacer()
@@ -198,6 +257,18 @@ struct CollectionView: View {
             .padding(.horizontal, DS.Spacing.xl)
         }
         .padding(.top, DS.Spacing.xl)
+    }
+
+    private func intensityDots(_ intensity: Int) -> some View {
+        HStack(spacing: 2) {
+            ForEach(0..<5, id: \.self) { i in
+                Circle()
+                    .fill(i < intensity / 20
+                        ? DS.Colors.accentPink
+                        : Color.white.opacity(0.1))
+                    .frame(width: 5, height: 5)
+            }
+        }
     }
 
     // MARK: - Quotes
@@ -223,16 +294,17 @@ struct CollectionView: View {
     }
 
     private var quotesEmptyState: some View {
-        VStack(spacing: DS.Spacing.xl) {
+        VStack(spacing: DS.Spacing.lg) {
             Text("📝")
                 .font(.system(size: 48))
             Text("まだ保存した名言がありません")
                 .font(DS.Fonts.body(14, weight: .medium))
                 .foregroundColor(DS.Colors.textPrimary)
-            Text("読書中に気になった一文を\n保存してみましょう")
+            Text("読書中にブックマークボタンで\n気になった一文を保存できます")
                 .font(DS.Fonts.body(12))
                 .foregroundColor(DS.Colors.textSecondary)
                 .multilineTextAlignment(.center)
+                .lineSpacing(3)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 60)
