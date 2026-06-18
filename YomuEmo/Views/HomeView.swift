@@ -15,10 +15,13 @@ struct HomeView: View {
         .罪悪感, .生きづらさ, .青春, .絶望, .自己嫌悪, .承認欲求
     ]
 
+    @State private var store = StoreManager.shared
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
                 headerSection
+                streakBanner
                 diagnosisCard
                 emotionTagsSection
                 worksSection
@@ -40,21 +43,38 @@ struct HomeView: View {
                     .foregroundColor(DS.Colors.textSecondary)
             }
             Spacer()
-            NavigationLink(destination: PremiumView()) {
-                Text("Premium")
-                    .font(DS.Fonts.small())
-                    .foregroundColor(DS.Colors.accentWarm)
-                    .padding(.horizontal, DS.Spacing.md)
-                    .padding(.vertical, 6)
-                    .overlay(
-                        Capsule()
-                            .strokeBorder(DS.Colors.accentWarm.opacity(0.3), lineWidth: 1)
-                    )
-            }
+            LevelBadge(xp: store.totalXP, compact: true)
         }
         .padding(.horizontal, DS.Spacing.xl)
         .padding(.top, DS.Spacing.lg)
         .padding(.bottom, DS.Spacing.xl)
+    }
+
+    private var streakBanner: some View {
+        Group {
+            let streak = store.streak
+            if streak.streakAlive && streak.currentStreak > 0 {
+                HStack(spacing: DS.Spacing.md) {
+                    Text(streak.currentStreak >= 3 ? "🔥" : "📖")
+                        .font(.system(size: 20))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(streak.currentStreak)日連続読書中！")
+                            .font(DS.Fonts.body(14, weight: .medium))
+                            .foregroundColor(DS.Colors.textPrimary)
+                        Text("今日も読んでストリークを伸ばそう")
+                            .font(DS.Fonts.caption())
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
+
+                    Spacer()
+                }
+                .padding(DS.Spacing.lg)
+                .glassCardHighlight(streak.currentStreak >= 7 ? DS.Colors.accentWarm : DS.Colors.accentIndigo)
+                .padding(.horizontal, DS.Spacing.xl)
+                .padding(.bottom, DS.Spacing.xl)
+            }
+        }
     }
 
     private var diagnosisCard: some View {

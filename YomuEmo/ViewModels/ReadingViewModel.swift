@@ -17,6 +17,8 @@ final class ReadingViewModel {
     var readingMode: ReadingMode = .original
     var showPoll: Bool = false
     var quoteSaved: Bool = false
+    var xpGained: Int = 0
+    var newEmotionsDiscovered: [EmotionTag] = []
 
     private let store = StoreManager.shared
 
@@ -75,15 +77,33 @@ final class ReadingViewModel {
         let modes = ReadingMode.allCases
         guard let idx = modes.firstIndex(of: readingMode) else { return }
         readingMode = modes[(idx + 1) % modes.count]
+        store.recordModeUsed(readingMode)
     }
 
     func next() {
+        store.incrementSegmentsRead()
+        store.recordDailyReading()
+        store.recordModeUsed(readingMode)
+
+        let segmentXP = store.addXP(.readSegment)
+        xpGained += segmentXP
+
+        for (tag, score) in currentSegment.emotionScores where score >= 20 {
+            let isNew = store.recordEmotionEncounter(tag: tag, intensity: score, workId: work.id)
+            if isNew {
+                newEmotionsDiscovered.append(tag)
+                store.addXP(.discoverEmotion)
+            }
+        }
+
         if currentIndex >= work.segments.count - 1 {
             store.saveProgress(ReadingProgress(
                 workId: work.id,
                 currentIndex: work.segments.count,
                 completed: true
             ))
+            store.addXP(.completeWork)
+            store.checkAchievements()
             isCompleted = true
         } else {
             currentIndex += 1
@@ -104,6 +124,8 @@ final class ReadingViewModel {
                 }
             }
         }
+
+        store.checkAchievements()
     }
 
     func reset() {
@@ -114,6 +136,8 @@ final class ReadingViewModel {
         selectedGlossary = nil
         isCompleted = false
         quoteSaved = false
+        xpGained = 0
+        newEmotionsDiscovered = []
         store.saveProgress(ReadingProgress(
             workId: work.id,
             currentIndex: 0,
@@ -128,6 +152,8 @@ final class ReadingViewModel {
             authorName: work.authorName
         )
         store.saveQuote(quote)
+        store.addXP(.saveQuote)
+        store.checkAchievements()
         quoteSaved = true
     }
 }

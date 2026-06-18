@@ -5,6 +5,7 @@ struct CompletionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showContent = false
     @State private var quoteSaved = false
+    @State private var store = StoreManager.shared
 
     private var aggregateEmotions: [EmotionTag: Int] {
         var totals: [EmotionTag: Int] = [:]
@@ -51,6 +52,7 @@ struct CompletionView: View {
                         .offset(y: showContent ? 0 : 16)
 
                     VStack(spacing: DS.Spacing.md) {
+                        xpSummaryCard
                         emotionSummaryCard
                         themeCard
                         modernConnectionCard
@@ -108,6 +110,24 @@ struct CompletionView: View {
                 showContent = true
             }
         }
+    }
+
+    private var xpSummaryCard: some View {
+        VStack(spacing: DS.Spacing.md) {
+            Text("+\(100) XP")
+                .font(DS.Fonts.body(28, weight: .bold))
+                .foregroundStyle(DS.Gradients.xpBar)
+
+            Text("作品読了ボーナス！")
+                .font(DS.Fonts.body(12))
+                .foregroundColor(DS.Colors.textSecondary)
+
+            XPBar(xp: store.totalXP)
+                .padding(.top, DS.Spacing.sm)
+        }
+        .padding(DS.Spacing.xl)
+        .glassCard()
+        .padding(.horizontal, DS.Spacing.xl)
     }
 
     private var emotionSummaryCard: some View {

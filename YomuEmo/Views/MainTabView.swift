@@ -15,16 +15,16 @@ struct MainTabView: View {
                     Text("作品")
                 }
 
-            FavoritesView()
+            CollectionView()
                 .tabItem {
-                    Image(systemName: "bookmark.fill")
-                    Text("お気に入り")
+                    Image(systemName: "square.grid.2x2.fill")
+                    Text("コレクション")
                 }
 
-            PremiumView()
+            ProfileView()
                 .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("Premium")
+                    Image(systemName: "person.fill")
+                    Text("マイページ")
                 }
         }
         .tint(DS.Colors.accentIndigo)

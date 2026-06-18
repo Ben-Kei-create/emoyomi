@@ -46,6 +46,17 @@
 		A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000025 /* PollCard.swift */; };
 		A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000026 /* QuoteCard.swift */; };
 		A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */; };
+		A1B2C3D4E5F60001000028 /* ReaderLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000028 /* ReaderLevel.swift */; };
+		A1B2C3D4E5F60001000029 /* EmotionCollectionEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000029 /* EmotionCollectionEntry.swift */; };
+		A1B2C3D4E5F6000100002A /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002A /* Achievement.swift */; };
+		A1B2C3D4E5F6000100002B /* ReadingStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002B /* ReadingStreak.swift */; };
+		A1B2C3D4E5F6000100002C /* XPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002C /* XPBar.swift */; };
+		A1B2C3D4E5F6000100002D /* StreakCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002D /* StreakCard.swift */; };
+		A1B2C3D4E5F6000100002E /* AchievementBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002E /* AchievementBadge.swift */; };
+		A1B2C3D4E5F6000100002F /* EmotionCollectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002F /* EmotionCollectionCard.swift */; };
+		A1B2C3D4E5F60001000030 /* LevelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000030 /* LevelBadge.swift */; };
+		A1B2C3D4E5F60001000031 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000031 /* CollectionView.swift */; };
+		A1B2C3D4E5F60001000032 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000032 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +99,17 @@
 		A1B2C3D4E5F60002000025 /* PollCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000026 /* QuoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingModeToggle.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000028 /* ReaderLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderLevel.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000029 /* EmotionCollectionEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionCollectionEntry.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002A /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002B /* ReadingStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingStreak.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002C /* XPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPBar.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002D /* StreakCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002E /* AchievementBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementBadge.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6000200002F /* EmotionCollectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionCollectionCard.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000030 /* LevelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBadge.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000031 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000032 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +160,10 @@
 				A1B2C3D4E5F60002000020 /* Poll.swift */,
 				A1B2C3D4E5F60002000021 /* FavoriteQuote.swift */,
 				A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */,
+				A1B2C3D4E5F60002000028 /* ReaderLevel.swift */,
+				A1B2C3D4E5F60002000029 /* EmotionCollectionEntry.swift */,
+				A1B2C3D4E5F6000200002A /* Achievement.swift */,
+				A1B2C3D4E5F6000200002B /* ReadingStreak.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,6 +199,8 @@
 				A1B2C3D4E5F6000200001E /* MainTabView.swift */,
 				A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */,
 				A1B2C3D4E5F60002000024 /* FavoritesView.swift */,
+				A1B2C3D4E5F60002000031 /* CollectionView.swift */,
+				A1B2C3D4E5F60002000032 /* ProfileView.swift */,
 				A1B2C3D4E5F60005000007 /* Components */,
 			);
 			path = Views;
@@ -192,6 +220,11 @@
 				A1B2C3D4E5F60002000025 /* PollCard.swift */,
 				A1B2C3D4E5F60002000026 /* QuoteCard.swift */,
 				A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */,
+				A1B2C3D4E5F6000200002C /* XPBar.swift */,
+				A1B2C3D4E5F6000200002D /* StreakCard.swift */,
+				A1B2C3D4E5F6000200002E /* AchievementBadge.swift */,
+				A1B2C3D4E5F6000200002F /* EmotionCollectionCard.swift */,
+				A1B2C3D4E5F60002000030 /* LevelBadge.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -344,6 +377,17 @@
 				A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */,
 				A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */,
 				A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */,
+				A1B2C3D4E5F60001000028 /* ReaderLevel.swift in Sources */,
+				A1B2C3D4E5F60001000029 /* EmotionCollectionEntry.swift in Sources */,
+				A1B2C3D4E5F6000100002A /* Achievement.swift in Sources */,
+				A1B2C3D4E5F6000100002B /* ReadingStreak.swift in Sources */,
+				A1B2C3D4E5F6000100002C /* XPBar.swift in Sources */,
+				A1B2C3D4E5F6000100002D /* StreakCard.swift in Sources */,
+				A1B2C3D4E5F6000100002E /* AchievementBadge.swift in Sources */,
+				A1B2C3D4E5F6000100002F /* EmotionCollectionCard.swift in Sources */,
+				A1B2C3D4E5F60001000030 /* LevelBadge.swift in Sources */,
+				A1B2C3D4E5F60001000031 /* CollectionView.swift in Sources */,
+				A1B2C3D4E5F60001000032 /* ProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

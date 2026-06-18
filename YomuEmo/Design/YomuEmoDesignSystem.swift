@@ -64,6 +64,30 @@ enum DS {
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
+
+        static let xpBar = LinearGradient(
+            colors: [Colors.accentWarm, Color(hex: "f97316"), Colors.accentPink],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+
+        static let streakFire = LinearGradient(
+            colors: [Color(hex: "f97316"), Color(hex: "ef4444")],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+
+        static let emotionBook = LinearGradient(
+            colors: [Colors.accentLavender.opacity(0.8), Colors.accentPink.opacity(0.6)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+
+        static let levelBadge = LinearGradient(
+            colors: [Colors.accentWarm, Color(hex: "fbbf24")],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 
     // MARK: - Typography

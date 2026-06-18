@@ -9,6 +9,8 @@ enum AppRoute: Hashable {
     case premium
     case diagnosis
     case favorites
+    case collection
+    case profile
 }
 
 extension AppRoute {
@@ -37,6 +39,10 @@ extension AppRoute {
             EmotionDiagnosisView()
         case .favorites:
             FavoritesView()
+        case .collection:
+            CollectionView()
+        case .profile:
+            ProfileView()
         }
     }
 }
