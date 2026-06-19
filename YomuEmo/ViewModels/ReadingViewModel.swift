@@ -294,6 +294,7 @@ final class ReadingViewModel {
                 completed: false
             ))
             if readingMode == .focus { resetFocusHideTimer() }
+            restartAutoPlayIfNeeded()
         }
     }
 
@@ -322,8 +323,8 @@ final class ReadingViewModel {
         store.checkAchievements()
         quoteSaved = true
         showSaveToast = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            withAnimation(.easeOut(duration: 0.3)) { self.showSaveToast = false }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            withAnimation(.easeOut(duration: 0.3)) { self?.showSaveToast = false }
         }
     }
 }

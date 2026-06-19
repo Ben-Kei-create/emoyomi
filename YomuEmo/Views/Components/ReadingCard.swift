@@ -58,37 +58,25 @@ struct ReadingCard: View {
     }
 
     private func buildAnnotatedText(_ text: String, glossary: [GlossaryEntry]) -> some View {
-        var components: [(String, GlossaryEntry?)] = []
-        var remaining = text
-
-        for entry in glossary {
-            if let range = remaining.range(of: entry.word) {
-                let before = String(remaining[remaining.startIndex..<range.lowerBound])
-                if !before.isEmpty {
-                    components.append((before, nil))
-                }
-                components.append((entry.word, entry))
-                remaining = String(remaining[range.upperBound...])
+        var attrStr = AttributedString(text)
+        for (index, entry) in glossary.enumerated() {
+            if let range = attrStr.range(of: entry.word) {
+                attrStr[range].link = URL(string: "glossary://word/\(index)")
+                attrStr[range].underlineStyle = Text.LineStyle(
+                    pattern: .solid, color: DS.Colors.accentIndigo.opacity(0.5)
+                )
             }
         }
-        if !remaining.isEmpty {
-            components.append((remaining, nil))
-        }
-
-        return HStack(spacing: 0) {
-            ForEach(Array(components.enumerated()), id: \.offset) { _, component in
-                if let entry = component.1 {
-                    Button(action: { onGlossaryTap(entry) }) {
-                        Text(component.0)
-                            .font(DS.Fonts.serif(serifSize))
-                            .foregroundColor(DS.Colors.accentIndigo)
-                            .underline(true, color: DS.Colors.accentIndigo.opacity(0.5))
-                    }
-                } else {
-                    Text(component.0)
+        return Text(attrStr)
+            .tint(DS.Colors.accentIndigo)
+            .environment(\.openURL, OpenURLAction { url in
+                if url.scheme == "glossary",
+                   let index = Int(url.lastPathComponent),
+                   index < glossary.count {
+                    onGlossaryTap(glossary[index])
                 }
-            }
-        }
+                return .handled
+            })
     }
 }
 

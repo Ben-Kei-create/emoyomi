@@ -5,6 +5,7 @@ struct ReadingView: View {
     @State private var vm: ReadingViewModel
     @State private var dragOffset: CGFloat = 0
     @State private var textId = UUID()
+    @State private var isAdvancing = false
     @Environment(\.dismiss) private var dismiss
 
     init(work: Work) {
@@ -259,34 +260,27 @@ struct ReadingView: View {
     }
 
     private func buildAnnotatedText(_ text: String, glossary: [GlossaryEntry]) -> some View {
-        var components: [(String, GlossaryEntry?)] = []
-        var remaining = text
-        for entry in glossary {
-            if let range = remaining.range(of: entry.word) {
-                let before = String(remaining[remaining.startIndex..<range.lowerBound])
-                if !before.isEmpty { components.append((before, nil)) }
-                components.append((entry.word, entry))
-                remaining = String(remaining[range.upperBound...])
+        var attrStr = AttributedString(text)
+        for (index, entry) in glossary.enumerated() {
+            if let range = attrStr.range(of: entry.word) {
+                attrStr[range].link = URL(string: "glossary://word/\(index)")
+                attrStr[range].underlineStyle = Text.LineStyle(
+                    pattern: .solid, color: DS.Colors.accentIndigo.opacity(0.5)
+                )
             }
         }
-        if !remaining.isEmpty { components.append((remaining, nil)) }
-
-        return HStack(spacing: 0) {
-            ForEach(Array(components.enumerated()), id: \.offset) { _, component in
-                if let entry = component.1 {
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            vm.selectedGlossary = entry
-                        }
-                    }) {
-                        Text(component.0)
-                            .underline(true, color: DS.Colors.accentIndigo.opacity(0.5))
+        return Text(attrStr)
+            .tint(DS.Colors.accentIndigo)
+            .environment(\.openURL, OpenURLAction { url in
+                if url.scheme == "glossary",
+                   let index = Int(url.lastPathComponent),
+                   index < glossary.count {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        vm.selectedGlossary = glossary[index]
                     }
-                } else {
-                    Text(component.0)
                 }
-            }
-        }
+                return .handled
+            })
     }
 
     private var modePill: some View {
@@ -372,6 +366,8 @@ struct ReadingView: View {
     }
 
     private func advanceWithAnimation() {
+        guard !isAdvancing else { return }
+        isAdvancing = true
         withAnimation(.easeInOut(duration: 0.25)) {
             dragOffset = -UIScreen.main.bounds.width
         }
@@ -382,6 +378,7 @@ struct ReadingView: View {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                 dragOffset = 0
             }
+            isAdvancing = false
         }
     }
 
@@ -417,7 +414,6 @@ struct ReadingView: View {
                     menuFontSize
                     menuBackground
                     menuProgress
-                    menuActions
                 }
                 .padding(.horizontal, DS.Spacing.xl)
                 .padding(.bottom, DS.Spacing.xxl)
@@ -641,13 +637,6 @@ struct ReadingView: View {
         }
     }
 
-    private var menuActions: some View {
-        VStack(spacing: DS.Spacing.xs) {
-            menuActionRow(icon: "bookmark", label: "ことば帳") {}
-            menuActionRow(icon: "info.circle", label: "作品情報　\(work.title)") {}
-        }
-    }
-
     // MARK: - Menu Helpers
 
     private func segmentedPicker<T: Equatable>(
@@ -679,26 +668,6 @@ struct ReadingView: View {
         )
     }
 
-    private func menuActionRow(icon: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack(spacing: DS.Spacing.md) {
-                Image(systemName: icon)
-                    .font(.system(size: 14))
-                    .foregroundColor(DS.Colors.textSecondary)
-                    .frame(width: 20)
-                Text(label)
-                    .font(DS.Fonts.body(14))
-                    .foregroundColor(DS.Colors.textPrimary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 11))
-                    .foregroundColor(DS.Colors.textSecondary.opacity(0.4))
-            }
-            .padding(.vertical, DS.Spacing.md)
-            .padding(.horizontal, DS.Spacing.lg)
-        }
-        .glassCard(cornerRadius: DS.Radius.sm)
-    }
 }
 
 #Preview {
