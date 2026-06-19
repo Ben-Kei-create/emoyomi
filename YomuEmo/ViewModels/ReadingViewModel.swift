@@ -4,20 +4,48 @@ enum ReadingMode: String, CaseIterable {
     case original = "原文"
     case easy = "やさしい日本語"
     case emo = "エモ訳"
+
+    var shortLabel: String {
+        switch self {
+        case .original: return "原文"
+        case .easy: return "やさしい"
+        case .emo: return "エモ訳"
+        }
+    }
+}
+
+enum ReadingFontSize: String, CaseIterable {
+    case small = "小"
+    case medium = "中"
+    case large = "大"
+
+    var scale: CGFloat {
+        switch self {
+        case .small: return 0.85
+        case .medium: return 1.0
+        case .large: return 1.2
+        }
+    }
+}
+
+enum ReadingBackground: String, CaseIterable {
+    case paper = "紙"
+    case cream = "生成り"
+    case white = "白"
 }
 
 @Observable
 final class ReadingViewModel {
     let work: Work
     var currentIndex: Int = 0
-    var showVibes: Bool = false
-    var showEmotions: Bool = false
     var selectedGlossary: GlossaryEntry?
     var isCompleted: Bool = false
     var readingMode: ReadingMode = .original
-    var showPoll: Bool = false
     var quoteSaved: Bool = false
     var showSaveToast: Bool = false
+    var showMenu: Bool = false
+    var fontSize: ReadingFontSize = .medium
+    var backgroundStyle: ReadingBackground = .paper
 
     private let store = StoreManager.shared
 
@@ -37,14 +65,20 @@ final class ReadingViewModel {
         Double(currentIndex + 1) / Double(work.segments.count)
     }
 
+    var progressPercent: String {
+        "\(Int(progress * 100))%"
+    }
+
     var progressText: String {
         "\(currentIndex + 1)/\(work.segments.count)"
     }
 
-    var currentPoll: Poll? {
-        guard let pollIndex = currentSegment.pollIndex,
-              pollIndex < work.polls.count else { return nil }
-        return work.polls[pollIndex]
+    var remainingSegments: Int {
+        work.segments.count - currentIndex - 1
+    }
+
+    var estimatedMinutes: Int {
+        max(1, remainingSegments)
     }
 
     var aggregateEmotionScores: [EmotionTag: Int] {
@@ -70,12 +104,30 @@ final class ReadingViewModel {
         if saved.currentIndex < work.segments.count && !saved.completed {
             self.currentIndex = saved.currentIndex
         }
+        if let savedSize = UserDefaults.standard.string(forKey: "emoyomi_fontSize"),
+           let size = ReadingFontSize(rawValue: savedSize) {
+            self.fontSize = size
+        }
+        if let savedBg = UserDefaults.standard.string(forKey: "emoyomi_background"),
+           let bg = ReadingBackground(rawValue: savedBg) {
+            self.backgroundStyle = bg
+        }
     }
 
     func cycleReadingMode() {
         let modes = ReadingMode.allCases
         guard let idx = modes.firstIndex(of: readingMode) else { return }
         readingMode = modes[(idx + 1) % modes.count]
+    }
+
+    func setFontSize(_ size: ReadingFontSize) {
+        fontSize = size
+        UserDefaults.standard.set(size.rawValue, forKey: "emoyomi_fontSize")
+    }
+
+    func setBackground(_ bg: ReadingBackground) {
+        backgroundStyle = bg
+        UserDefaults.standard.set(bg.rawValue, forKey: "emoyomi_background")
     }
 
     func next() {
@@ -91,9 +143,6 @@ final class ReadingViewModel {
             isCompleted = true
         } else {
             currentIndex += 1
-            showVibes = false
-            showEmotions = false
-            showPoll = false
             selectedGlossary = nil
             quoteSaved = false
             showSaveToast = false
@@ -102,20 +151,11 @@ final class ReadingViewModel {
                 currentIndex: currentIndex,
                 completed: false
             ))
-
-            if currentSegment.pollIndex != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation { self.showPoll = true }
-                }
-            }
         }
     }
 
     func reset() {
         currentIndex = 0
-        showVibes = false
-        showEmotions = false
-        showPoll = false
         selectedGlossary = nil
         isCompleted = false
         quoteSaved = false
