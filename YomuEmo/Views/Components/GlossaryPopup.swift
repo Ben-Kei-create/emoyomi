@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GlossaryPopup: View {
     let entry: GlossaryEntry
+    let glossaryMode: GlossaryMode
     let onClose: () -> Void
 
     var body: some View {
@@ -34,35 +35,7 @@ struct GlossaryPopup: View {
                 }
                 .padding(.bottom, DS.Spacing.lg)
 
-                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-                    Text("意味")
-                        .font(DS.Fonts.caption())
-                        .foregroundColor(DS.Colors.textSecondary)
-                        .textCase(.uppercase)
-                        .tracking(1)
-
-                    Text(entry.meaning)
-                        .font(DS.Fonts.body(14))
-                        .foregroundColor(DS.Colors.textPrimary)
-                }
-                .padding(.bottom, DS.Spacing.lg)
-
-                Rectangle()
-                    .fill(DS.Colors.borderSubtle)
-                    .frame(height: 1)
-                    .padding(.bottom, DS.Spacing.lg)
-
-                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-                    Text("バイブス訳")
-                        .font(DS.Fonts.caption())
-                        .foregroundColor(DS.Colors.accentPink)
-                        .textCase(.uppercase)
-                        .tracking(1)
-
-                    Text(entry.vibes)
-                        .font(DS.Fonts.body(14))
-                        .foregroundColor(DS.Colors.textPrimary)
-                }
+                explanationSection
             }
             .padding(DS.Spacing.xl)
             .background(
@@ -77,6 +50,53 @@ struct GlossaryPopup: View {
             .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }
+
+    @ViewBuilder
+    private var explanationSection: some View {
+        switch glossaryMode {
+        case .literature:
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                Text("意味")
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .textCase(.uppercase)
+                    .tracking(1)
+
+                Text(entry.meaning)
+                    .font(DS.Fonts.body(14))
+                    .foregroundColor(DS.Colors.textPrimary)
+                    .lineSpacing(4)
+            }
+
+        case .easy:
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                Text("やさしい説明")
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.accentNeon)
+                    .textCase(.uppercase)
+                    .tracking(1)
+
+                Text(entry.easyMeaning)
+                    .font(DS.Fonts.body(15))
+                    .foregroundColor(DS.Colors.textPrimary)
+                    .lineSpacing(4)
+            }
+
+        case .emo:
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                Text("エモ訳")
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.accentPink)
+                    .textCase(.uppercase)
+                    .tracking(1)
+
+                Text(entry.vibes)
+                    .font(DS.Fonts.body(15))
+                    .foregroundColor(DS.Colors.textPrimary)
+                    .lineSpacing(4)
+            }
+        }
+    }
 }
 
 #Preview {
@@ -87,6 +107,7 @@ struct GlossaryPopup: View {
             meaning: "眠れずに何度も寝返りをうつこと",
             vibes: "深夜3時にスマホ見ながら寝返りしまくるあの感じ"
         ),
+        glossaryMode: .emo,
         onClose: {}
     )
 }

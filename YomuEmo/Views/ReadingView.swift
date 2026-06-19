@@ -15,92 +15,26 @@ struct ReadingView: View {
     var body: some View {
         ZStack {
             DS.Colors.bgPrimary.ignoresSafeArea()
-                .onTapGesture {
-                    if !vm.showMenu {
-                        withAnimation(.easeOut(duration: 0.25)) { vm.showMenu = true }
-                    }
-                }
+                .onTapGesture { handleBackgroundTap() }
 
-            VStack(spacing: 0) {
-                topBar
-                Spacer()
-                ReadingCard(
-                    segment: vm.currentSegment,
-                    readingMode: vm.readingMode,
-                    fontScale: vm.fontSize.scale,
-                    backgroundStyle: vm.backgroundStyle,
-                    onGlossaryTap: { entry in
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            vm.selectedGlossary = entry
-                        }
-                    }
-                )
-                .padding(.horizontal, DS.Spacing.xl)
-                .offset(x: dragOffset)
-                .opacity(1 - abs(dragOffset) / (UIScreen.main.bounds.width * 0.8))
-                .id(textId)
-                .gesture(
-                    DragGesture(minimumDistance: 30)
-                        .onChanged { value in
-                            if value.translation.width < 0 {
-                                dragOffset = value.translation.width * 0.3
-                            }
-                        }
-                        .onEnded { value in
-                            if value.translation.width < -60 {
-                                advanceWithAnimation()
-                            } else {
-                                withAnimation(.spring(response: 0.3)) {
-                                    dragOffset = 0
-                                }
-                            }
-                        }
-                )
-                Spacer()
-                bottomControls
+            switch vm.readingMode {
+            case .lyric: lyricLayout
+            case .cinema: cinemaLayout
+            case .focus: focusLayout
             }
 
-            // Glossary popup
             if let entry = vm.selectedGlossary {
-                GlossaryPopup(entry: entry) {
+                GlossaryPopup(entry: entry, glossaryMode: vm.glossaryMode) {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         vm.selectedGlossary = nil
                     }
                 }
             }
 
-            // Save toast
             if vm.showSaveToast {
-                VStack {
-                    HStack {
-                        Spacer()
-                        HStack(spacing: DS.Spacing.sm) {
-                            Image(systemName: "bookmark.fill")
-                                .font(.system(size: 12))
-                                .foregroundColor(DS.Colors.popYellow)
-                            Text("ことば帳に保存しました")
-                                .font(DS.Fonts.body(12, weight: .medium))
-                                .foregroundColor(DS.Colors.textPrimary)
-                        }
-                        .padding(.horizontal, DS.Spacing.md)
-                        .padding(.vertical, DS.Spacing.xs)
-                        .background(
-                            Capsule()
-                                .fill(DS.Colors.bgCard.opacity(0.9))
-                                .overlay(
-                                    Capsule()
-                                        .strokeBorder(DS.Colors.popYellow.opacity(0.2), lineWidth: 1)
-                                )
-                        )
-                        .transition(.opacity.combined(with: .move(edge: .top)))
-                    }
-                    .padding(.horizontal, DS.Spacing.xl)
-                    .padding(.top, 60)
-                    Spacer()
-                }
+                saveToast
             }
 
-            // Reading menu overlay
             if vm.showMenu {
                 readingMenuOverlay
             }
@@ -109,11 +43,191 @@ struct ReadingView: View {
         .navigationDestination(isPresented: $vm.isCompleted) {
             CompletionView(work: work)
         }
+        .onAppear {
+            vm.restartAutoPlayIfNeeded()
+            if vm.readingMode == .focus { vm.resetFocusHideTimer() }
+        }
+        .onDisappear {
+            vm.stopAutoPlay()
+        }
     }
 
-    // MARK: - Top Bar (minimal)
+    private func handleBackgroundTap() {
+        if vm.readingMode == .focus {
+            vm.showFocusControls()
+        } else {
+            withAnimation(.easeOut(duration: 0.25)) { vm.showMenu = true }
+        }
+    }
 
-    private var topBar: some View {
+    // MARK: - Lyric Mode
+
+    private var lyricLayout: some View {
+        VStack(spacing: 0) {
+            minimalTopBar
+            Spacer()
+            lyricContent
+            Spacer()
+            HStack(alignment: .bottom) {
+                modePill
+                Spacer()
+                nextButton
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+            .padding(.bottom, DS.Spacing.xxl)
+        }
+    }
+
+    private var lyricContent: some View {
+        VStack(spacing: DS.Spacing.xxl) {
+            if let prev = vm.previousSegment {
+                Text(vm.displayText(for: prev))
+                    .font(DS.Fonts.serif(14 * vm.fontSize.scale))
+                    .foregroundColor(DS.Colors.textPrimary.opacity(0.25))
+                    .lineSpacing(4)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xxxl)
+                    .transition(.opacity)
+            }
+
+            ReadingCard(
+                text: vm.displayText(for: vm.currentSegment),
+                glossaryEntries: vm.currentSegment.glossaryEntries,
+                fontScale: vm.fontSize.scale,
+                backgroundStyle: vm.backgroundStyle,
+                onGlossaryTap: { entry in
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        vm.selectedGlossary = entry
+                    }
+                }
+            )
+            .padding(.horizontal, DS.Spacing.xl)
+            .offset(x: dragOffset)
+            .opacity(1 - abs(dragOffset) / (UIScreen.main.bounds.width * 0.8))
+            .id(textId)
+            .gesture(swipeGesture)
+
+            if let next = vm.nextSegment {
+                Text(vm.displayText(for: next))
+                    .font(DS.Fonts.serif(14 * vm.fontSize.scale))
+                    .foregroundColor(DS.Colors.textPrimary.opacity(0.15))
+                    .lineSpacing(4)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xxxl)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.4), value: vm.currentIndex)
+    }
+
+    // MARK: - Cinema Mode
+
+    private var cinemaLayout: some View {
+        VStack(spacing: 0) {
+            minimalTopBar
+            Spacer()
+            cinemaContent
+            Spacer()
+            HStack(alignment: .bottom) {
+                modePill
+                Spacer()
+                cinemaPauseButton
+                    .padding(.trailing, DS.Spacing.md)
+                nextButton
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+            .padding(.bottom, DS.Spacing.xxl)
+        }
+    }
+
+    private var cinemaContent: some View {
+        VStack(spacing: DS.Spacing.xl) {
+            ForEach(visiblePastIndices, id: \.self) { i in
+                Text(vm.displayText(for: work.segments[i]))
+                    .font(DS.Fonts.serif(15 * vm.fontSize.scale))
+                    .foregroundColor(DS.Colors.textPrimary.opacity(pastOpacity(for: i)))
+                    .lineSpacing(4)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xxl)
+            }
+
+            glossaryTextView(vm.currentSegment)
+                .font(DS.Fonts.serif(18 * vm.fontSize.scale))
+                .foregroundColor(DS.Colors.textPrimary.opacity(0.9))
+                .lineSpacing(8)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, DS.Spacing.xxl)
+                .id(textId)
+        }
+        .animation(.easeInOut(duration: 0.6), value: vm.currentIndex)
+        .gesture(swipeGesture)
+    }
+
+    private var visiblePastIndices: [Int] {
+        let start = max(0, vm.currentIndex - 3)
+        return Array(start..<vm.currentIndex)
+    }
+
+    private func pastOpacity(for index: Int) -> Double {
+        let distance = vm.currentIndex - index
+        return max(0.08, 0.3 - Double(distance) * 0.08)
+    }
+
+    private var cinemaPauseButton: some View {
+        Button(action: { vm.toggleCinemaPause() }) {
+            Image(systemName: vm.cinemaPaused ? "play.fill" : "pause.fill")
+                .font(.system(size: 14))
+                .foregroundColor(DS.Colors.textSecondary)
+                .frame(width: 40, height: 40)
+                .background(
+                    Circle()
+                        .fill(DS.Colors.bgCard.opacity(0.7))
+                        .overlay(Circle().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1))
+                )
+        }
+    }
+
+    // MARK: - Focus Mode
+
+    private var focusLayout: some View {
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture { vm.showFocusControls() }
+
+            VStack {
+                Spacer()
+                glossaryTextView(vm.currentSegment)
+                    .font(DS.Fonts.serif(20 * vm.fontSize.scale))
+                    .foregroundColor(DS.Colors.textPrimary.opacity(0.85))
+                    .lineSpacing(10)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xxl)
+                    .id(textId)
+                    .gesture(swipeGesture)
+                Spacer()
+            }
+
+            if vm.focusControlsVisible {
+                VStack {
+                    minimalTopBar
+                    Spacer()
+                    HStack(alignment: .bottom) {
+                        modePill
+                        Spacer()
+                        nextButton
+                    }
+                    .padding(.horizontal, DS.Spacing.xl)
+                    .padding(.bottom, DS.Spacing.xxl)
+                }
+                .transition(.opacity)
+            }
+        }
+    }
+
+    // MARK: - Shared Components
+
+    private var minimalTopBar: some View {
         HStack {
             Button(action: { dismiss() }) {
                 Image(systemName: "chevron.left")
@@ -121,9 +235,7 @@ struct ReadingView: View {
                     .foregroundColor(DS.Colors.textSecondary.opacity(0.5))
                     .frame(width: 36, height: 36)
             }
-
             Spacer()
-
             Button(action: { vm.saveCurrentQuote() }) {
                 Image(systemName: vm.quoteSaved ? "bookmark.fill" : "bookmark")
                     .font(.system(size: 16))
@@ -135,61 +247,129 @@ struct ReadingView: View {
         .padding(.top, DS.Spacing.sm)
     }
 
-    // MARK: - Bottom Controls (minimal)
+    @ViewBuilder
+    private func glossaryTextView(_ segment: TextSegment) -> some View {
+        let text = vm.displayText(for: segment)
+        let glossary = segment.glossaryEntries
+        if glossary.isEmpty {
+            Text(text)
+        } else {
+            buildAnnotatedText(text, glossary: glossary)
+        }
+    }
 
-    private var bottomControls: some View {
-        HStack(alignment: .bottom) {
-            modePill
-
-            Spacer()
-
-            Button(action: { advanceWithAnimation() }) {
-                Image(systemName: "arrow.right")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.white)
-                    .frame(width: 52, height: 52)
-                    .background(
-                        Circle()
-                            .fill(DS.Colors.accentIndigo)
-                            .shadow(color: DS.Colors.accentIndigo.opacity(0.3), radius: 8, y: 3)
-                    )
+    private func buildAnnotatedText(_ text: String, glossary: [GlossaryEntry]) -> some View {
+        var components: [(String, GlossaryEntry?)] = []
+        var remaining = text
+        for entry in glossary {
+            if let range = remaining.range(of: entry.word) {
+                let before = String(remaining[remaining.startIndex..<range.lowerBound])
+                if !before.isEmpty { components.append((before, nil)) }
+                components.append((entry.word, entry))
+                remaining = String(remaining[range.upperBound...])
             }
         }
-        .padding(.horizontal, DS.Spacing.xl)
-        .padding(.bottom, DS.Spacing.xxl)
+        if !remaining.isEmpty { components.append((remaining, nil)) }
+
+        return HStack(spacing: 0) {
+            ForEach(Array(components.enumerated()), id: \.offset) { _, component in
+                if let entry = component.1 {
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            vm.selectedGlossary = entry
+                        }
+                    }) {
+                        Text(component.0)
+                            .underline(true, color: DS.Colors.accentIndigo.opacity(0.5))
+                    }
+                } else {
+                    Text(component.0)
+                }
+            }
+        }
     }
 
     private var modePill: some View {
         Button(action: {
-            withAnimation(.easeInOut(duration: 0.15)) {
-                vm.cycleReadingMode()
-            }
+            withAnimation(.easeOut(duration: 0.25)) { vm.showMenu = true }
         }) {
-            Text(vm.readingMode.shortLabel)
-                .font(DS.Fonts.body(11, weight: .medium))
-                .foregroundColor(modeColor.opacity(0.9))
-                .padding(.horizontal, DS.Spacing.md)
-                .padding(.vertical, DS.Spacing.sm)
+            HStack(spacing: DS.Spacing.xs) {
+                Image(systemName: vm.readingMode.icon)
+                    .font(.system(size: 10))
+                Text(vm.readingMode.rawValue)
+                    .font(DS.Fonts.body(11, weight: .medium))
+            }
+            .foregroundColor(DS.Colors.textSecondary.opacity(0.7))
+            .padding(.horizontal, DS.Spacing.md)
+            .padding(.vertical, DS.Spacing.sm)
+            .background(
+                Capsule()
+                    .fill(DS.Colors.bgCard.opacity(0.6))
+                    .overlay(Capsule().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1))
+            )
+        }
+    }
+
+    private var nextButton: some View {
+        Button(action: { advanceWithAnimation() }) {
+            Image(systemName: "arrow.right")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.white)
+                .frame(width: 52, height: 52)
                 .background(
-                    Capsule()
-                        .fill(DS.Colors.bgCard.opacity(0.7))
-                        .overlay(
-                            Capsule()
-                                .strokeBorder(modeColor.opacity(0.25), lineWidth: 1)
-                        )
+                    Circle()
+                        .fill(DS.Colors.accentIndigo)
+                        .shadow(color: DS.Colors.accentIndigo.opacity(0.3), radius: 8, y: 3)
                 )
         }
     }
 
-    private var modeColor: Color {
-        switch vm.readingMode {
-        case .original: return DS.Colors.accentIndigo
-        case .easy: return DS.Colors.accentNeon
-        case .emo: return DS.Colors.accentPink
+    private var saveToast: some View {
+        VStack {
+            HStack {
+                Spacer()
+                HStack(spacing: DS.Spacing.sm) {
+                    Image(systemName: "bookmark.fill")
+                        .font(.system(size: 12))
+                        .foregroundColor(DS.Colors.popYellow)
+                    Text("ことば帳に保存しました")
+                        .font(DS.Fonts.body(12, weight: .medium))
+                        .foregroundColor(DS.Colors.textPrimary)
+                }
+                .padding(.horizontal, DS.Spacing.md)
+                .padding(.vertical, DS.Spacing.xs)
+                .background(
+                    Capsule()
+                        .fill(DS.Colors.bgCard.opacity(0.9))
+                        .overlay(Capsule().strokeBorder(DS.Colors.popYellow.opacity(0.2), lineWidth: 1))
+                )
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+            .padding(.top, 60)
+            Spacer()
         }
     }
 
-    // MARK: - Advance Animation
+    // MARK: - Gestures
+
+    private var swipeGesture: some Gesture {
+        DragGesture(minimumDistance: 30)
+            .onChanged { value in
+                if value.translation.width < 0 {
+                    dragOffset = value.translation.width * 0.3
+                }
+            }
+            .onEnded { value in
+                if value.translation.width < -60 {
+                    advanceWithAnimation()
+                } else {
+                    withAnimation(.spring(response: 0.3)) {
+                        dragOffset = 0
+                    }
+                }
+            }
+    }
 
     private func advanceWithAnimation() {
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -222,7 +402,6 @@ struct ReadingView: View {
 
     private var readingMenuSheet: some View {
         VStack(spacing: 0) {
-            // Handle
             RoundedRectangle(cornerRadius: 3)
                 .fill(Color.white.opacity(0.15))
                 .frame(width: 36, height: 4)
@@ -231,16 +410,19 @@ struct ReadingView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: DS.Spacing.xl) {
-                    menuModeSelector
-                    menuFontSizeSelector
-                    menuBackgroundSelector
+                    menuReadingMode
+                    menuTextMode
+                    menuGlossaryMode
+                    menuAutoPlay
+                    menuFontSize
+                    menuBackground
                     menuProgress
                     menuActions
                 }
                 .padding(.horizontal, DS.Spacing.xl)
                 .padding(.bottom, DS.Spacing.xxl)
             }
-            .frame(maxHeight: UIScreen.main.bounds.height * 0.55)
+            .frame(maxHeight: UIScreen.main.bounds.height * 0.6)
 
             Button(action: {
                 withAnimation(.easeIn(duration: 0.2)) { vm.showMenu = false }
@@ -267,51 +449,103 @@ struct ReadingView: View {
 
     // MARK: - Menu Sections
 
-    private var menuModeSelector: some View {
+    private var menuReadingMode: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.sm) {
-            Text("表示モード")
+            Text("読書モード")
                 .font(DS.Fonts.caption())
                 .foregroundColor(DS.Colors.textSecondary)
                 .textCase(.uppercase)
                 .tracking(1)
 
-            HStack(spacing: 0) {
+            HStack(spacing: DS.Spacing.sm) {
                 ForEach(ReadingMode.allCases, id: \.rawValue) { mode in
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            vm.readingMode = mode
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            vm.setReadingMode(mode)
                         }
                     }) {
-                        Text(mode.shortLabel)
-                            .font(DS.Fonts.body(13, weight: .medium))
-                            .foregroundColor(vm.readingMode == mode ? .white : DS.Colors.textSecondary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, DS.Spacing.sm)
-                            .background(
-                                Capsule()
-                                    .fill(vm.readingMode == mode ? menuModeColor(mode) : Color.clear)
-                            )
+                        VStack(spacing: DS.Spacing.xs) {
+                            Image(systemName: mode.icon)
+                                .font(.system(size: 18))
+                            Text(mode.rawValue)
+                                .font(DS.Fonts.body(11, weight: .medium))
+                        }
+                        .foregroundColor(vm.readingMode == mode ? .white : DS.Colors.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, DS.Spacing.md)
+                        .background(
+                            RoundedRectangle(cornerRadius: DS.Radius.sm)
+                                .fill(vm.readingMode == mode ? DS.Colors.accentIndigo : DS.Colors.bgCard.opacity(0.5))
+                        )
                     }
                 }
             }
-            .padding(3)
-            .background(
-                Capsule()
-                    .fill(DS.Colors.bgCard.opacity(0.8))
-                    .overlay(Capsule().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1))
+        }
+    }
+
+    private var menuTextMode: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+            Text("テキスト")
+                .font(DS.Fonts.caption())
+                .foregroundColor(DS.Colors.textSecondary)
+                .textCase(.uppercase)
+                .tracking(1)
+
+            segmentedPicker(
+                items: TextMode.allCases,
+                selected: vm.textMode,
+                label: \.rawValue,
+                onSelect: { vm.setTextMode($0) }
             )
         }
     }
 
-    private func menuModeColor(_ mode: ReadingMode) -> Color {
-        switch mode {
-        case .original: return DS.Colors.accentIndigo
-        case .easy: return DS.Colors.accentNeon
-        case .emo: return DS.Colors.accentPink
+    private var menuGlossaryMode: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+            Text("辞書モード")
+                .font(DS.Fonts.caption())
+                .foregroundColor(DS.Colors.textSecondary)
+                .textCase(.uppercase)
+                .tracking(1)
+
+            segmentedPicker(
+                items: GlossaryMode.allCases,
+                selected: vm.glossaryMode,
+                label: \.rawValue,
+                onSelect: { vm.setGlossaryMode($0) }
+            )
         }
     }
 
-    private var menuFontSizeSelector: some View {
+    private var menuAutoPlay: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+            Text("自動再生")
+                .font(DS.Fonts.caption())
+                .foregroundColor(DS.Colors.textSecondary)
+                .textCase(.uppercase)
+                .tracking(1)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: DS.Spacing.sm) {
+                    ForEach(AutoPlaySpeed.allCases, id: \.rawValue) { speed in
+                        Button(action: { vm.setAutoPlay(speed) }) {
+                            Text(speed.rawValue)
+                                .font(DS.Fonts.body(11, weight: .medium))
+                                .foregroundColor(vm.autoPlaySpeed == speed ? .white : DS.Colors.textSecondary)
+                                .padding(.horizontal, DS.Spacing.md)
+                                .padding(.vertical, DS.Spacing.sm)
+                                .background(
+                                    Capsule()
+                                        .fill(vm.autoPlaySpeed == speed ? DS.Colors.accentIndigo.opacity(0.8) : DS.Colors.bgCard.opacity(0.5))
+                                )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var menuFontSize: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             Text("文字サイズ")
                 .font(DS.Fonts.caption())
@@ -319,31 +553,16 @@ struct ReadingView: View {
                 .textCase(.uppercase)
                 .tracking(1)
 
-            HStack(spacing: 0) {
-                ForEach(ReadingFontSize.allCases, id: \.rawValue) { size in
-                    Button(action: { vm.setFontSize(size) }) {
-                        Text(size.rawValue)
-                            .font(DS.Fonts.body(13, weight: .medium))
-                            .foregroundColor(vm.fontSize == size ? .white : DS.Colors.textSecondary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, DS.Spacing.sm)
-                            .background(
-                                Capsule()
-                                    .fill(vm.fontSize == size ? DS.Colors.accentIndigo.opacity(0.8) : Color.clear)
-                            )
-                    }
-                }
-            }
-            .padding(3)
-            .background(
-                Capsule()
-                    .fill(DS.Colors.bgCard.opacity(0.8))
-                    .overlay(Capsule().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1))
+            segmentedPicker(
+                items: ReadingFontSize.allCases,
+                selected: vm.fontSize,
+                label: \.rawValue,
+                onSelect: { vm.setFontSize($0) }
             )
         }
     }
 
-    private var menuBackgroundSelector: some View {
+    private var menuBackground: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.sm) {
             Text("背景")
                 .font(DS.Fonts.caption())
@@ -361,19 +580,13 @@ struct ReadingView: View {
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DS.Radius.sm)
                                         .strokeBorder(
-                                            vm.backgroundStyle == bg
-                                                ? DS.Colors.accentIndigo
-                                                : DS.Colors.borderSubtle,
+                                            vm.backgroundStyle == bg ? DS.Colors.accentIndigo : DS.Colors.borderSubtle,
                                             lineWidth: vm.backgroundStyle == bg ? 2 : 1
                                         )
                                 )
                             Text(bg.rawValue)
                                 .font(DS.Fonts.caption())
-                                .foregroundColor(
-                                    vm.backgroundStyle == bg
-                                        ? DS.Colors.textPrimary
-                                        : DS.Colors.textSecondary
-                                )
+                                .foregroundColor(vm.backgroundStyle == bg ? DS.Colors.textPrimary : DS.Colors.textSecondary)
                         }
                     }
                 }
@@ -430,13 +643,40 @@ struct ReadingView: View {
 
     private var menuActions: some View {
         VStack(spacing: DS.Spacing.xs) {
-            menuActionRow(icon: "bookmark", label: "ことば帳") {
-                vm.showMenu = false
-            }
-            menuActionRow(icon: "info.circle", label: "作品情報　\(work.title)") {
-                vm.showMenu = false
+            menuActionRow(icon: "bookmark", label: "ことば帳") {}
+            menuActionRow(icon: "info.circle", label: "作品情報　\(work.title)") {}
+        }
+    }
+
+    // MARK: - Menu Helpers
+
+    private func segmentedPicker<T: Equatable>(
+        items: [T],
+        selected: T,
+        label: KeyPath<T, String>,
+        onSelect: @escaping (T) -> Void
+    ) -> some View {
+        HStack(spacing: 0) {
+            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                Button(action: { onSelect(item) }) {
+                    Text(item[keyPath: label])
+                        .font(DS.Fonts.body(13, weight: .medium))
+                        .foregroundColor(selected == item ? .white : DS.Colors.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, DS.Spacing.sm)
+                        .background(
+                            Capsule()
+                                .fill(selected == item ? DS.Colors.accentIndigo.opacity(0.8) : Color.clear)
+                        )
+                }
             }
         }
+        .padding(3)
+        .background(
+            Capsule()
+                .fill(DS.Colors.bgCard.opacity(0.8))
+                .overlay(Capsule().strokeBorder(DS.Colors.borderSubtle, lineWidth: 1))
+        )
     }
 
     private func menuActionRow(icon: String, label: String, action: @escaping () -> Void) -> some View {

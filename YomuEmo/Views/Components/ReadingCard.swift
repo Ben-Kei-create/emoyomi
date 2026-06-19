@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct ReadingCard: View {
-    let segment: TextSegment
-    let readingMode: ReadingMode
+    let text: String
+    let glossaryEntries: [GlossaryEntry]
     var fontScale: CGFloat = 1.0
     var backgroundStyle: ReadingBackground = .paper
+    var showBackground: Bool = true
     let onGlossaryTap: (GlossaryEntry) -> Void
 
     private var cardBackground: AnyShapeStyle {
@@ -25,36 +26,25 @@ struct ReadingCard: View {
     }
 
     private var serifSize: CGFloat { 18 * fontScale }
-    private var bodySize: CGFloat { 17 * fontScale }
     private var lineGap: CGFloat { 8 * fontScale }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            switch readingMode {
-            case .original:
-                glossaryText(segment.originalText, glossary: segment.glossaryEntries)
-                    .font(DS.Fonts.serif(serifSize))
-                    .foregroundColor(DS.Colors.textPaper)
-                    .lineSpacing(lineGap)
-            case .easy:
-                Text(segment.easyText)
-                    .font(DS.Fonts.body(bodySize))
-                    .foregroundColor(DS.Colors.textPaper.opacity(0.9))
-                    .lineSpacing(lineGap)
-            case .emo:
-                Text(segment.emoText)
-                    .font(DS.Fonts.body(bodySize, weight: .light))
-                    .foregroundColor(DS.Colors.accentPink.opacity(0.9))
-                    .lineSpacing(lineGap + 2)
-                    .italic()
-            }
+            glossaryText(text, glossary: glossaryEntries)
+                .font(DS.Fonts.serif(serifSize))
+                .foregroundColor(DS.Colors.textPaper)
+                .lineSpacing(lineGap)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(DS.Spacing.xxl)
         .background(
-            RoundedRectangle(cornerRadius: DS.Radius.xl)
-                .fill(cardBackground)
-                .shadow(color: .black.opacity(0.3), radius: 16, y: 4)
+            Group {
+                if showBackground {
+                    RoundedRectangle(cornerRadius: DS.Radius.xl)
+                        .fill(cardBackground)
+                        .shadow(color: .black.opacity(0.3), radius: 16, y: 4)
+                }
+            }
         )
     }
 
@@ -103,9 +93,10 @@ struct ReadingCard: View {
 }
 
 #Preview {
+    let segment = WorksData.all[0].segments[0]
     ReadingCard(
-        segment: WorksData.all[0].segments[0],
-        readingMode: .original,
+        text: segment.originalText,
+        glossaryEntries: segment.glossaryEntries,
         onGlossaryTap: { _ in }
     )
     .padding()
