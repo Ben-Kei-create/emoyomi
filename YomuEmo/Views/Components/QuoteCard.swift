@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct QuoteCard: View {
-    let quote: FavoriteQuote
+    let quote: SavedQuote
     var onDelete: (() -> Void)?
 
     private var dateString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
-        return formatter.string(from: quote.savedDate)
+        return formatter.string(from: quote.savedAt)
     }
 
     var body: some View {
@@ -59,17 +59,21 @@ struct QuoteCard: View {
 #Preview {
     VStack(spacing: 16) {
         QuoteCard(
-            quote: FavoriteQuote(
+            quote: SavedQuote(
                 text: "恥の多い生涯を送って来ました。",
+                workId: "ningen-shikkaku",
                 workTitle: "人間失格",
+                authorId: "dazai",
                 authorName: "太宰治"
             ),
             onDelete: {}
         )
         QuoteCard(
-            quote: FavoriteQuote(
+            quote: SavedQuote(
                 text: "ほんとうのさいわいは一体何だろう。",
+                workId: "ginga-tetsudo",
                 workTitle: "銀河鉄道の夜",
+                authorId: "miyazawa",
                 authorName: "宮沢賢治"
             )
         )

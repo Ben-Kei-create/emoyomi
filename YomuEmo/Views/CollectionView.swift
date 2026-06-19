@@ -3,18 +3,9 @@ import SwiftUI
 struct CollectionView: View {
     @State private var store = StoreManager.shared
     @State private var selectedTab = 0
+    @State private var showDailyQuote = false
 
-    private var collection: [EmotionCollectionEntry] {
-        store.emotionCollection
-    }
-
-    private var quotes: [FavoriteQuote] {
-        store.savedQuotes
-    }
-
-    private var completionRatio: Double {
-        Double(collection.count) / Double(EmotionTag.allCases.count)
-    }
+    private let tabs = ["集めた言葉", "読書の記録", "バッジ"]
 
     var body: some View {
         ZStack {
@@ -23,12 +14,12 @@ struct CollectionView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     headerSection
-                    completionRing
+                    dailyQuoteCard
                     segmentPicker
-                    if selectedTab == 0 {
-                        emotionBookSection
-                    } else {
-                        quotesSection
+                    switch selectedTab {
+                    case 0: quotesSection
+                    case 1: readingHistorySection
+                    default: badgesSection
                     }
                 }
             }
@@ -40,11 +31,11 @@ struct CollectionView: View {
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-            Text("コレクション")
+            Text("ことば帳")
                 .font(DS.Fonts.serifBold(24))
                 .foregroundColor(DS.Colors.textPrimary)
 
-            Text("文学の中で出会った感情たち")
+            Text("心に残った言葉たち")
                 .font(DS.Fonts.body(14))
                 .foregroundColor(DS.Colors.textSecondary)
         }
@@ -53,73 +44,56 @@ struct CollectionView: View {
         .padding(.bottom, DS.Spacing.xl)
     }
 
-    // MARK: - Completion Ring
+    // MARK: - Daily Quote
 
-    private var completionRing: some View {
-        HStack(spacing: DS.Spacing.xxl) {
-            ZStack {
-                Circle()
-                    .stroke(Color.white.opacity(0.06), lineWidth: 6)
-                    .frame(width: 80, height: 80)
+    private var dailyQuoteCard: some View {
+        Group {
+            if let quote = store.randomQuote() {
+                Button(action: { withAnimation { showDailyQuote.toggle() } }) {
+                    VStack(alignment: .leading, spacing: DS.Spacing.md) {
+                        HStack(spacing: DS.Spacing.sm) {
+                            Text("📖")
+                                .font(.system(size: 16))
+                            Text("今日の一文")
+                                .font(DS.Fonts.caption())
+                                .foregroundColor(DS.Colors.accentWarm)
+                                .textCase(.uppercase)
+                                .tracking(1)
+                            Spacer()
+                            Image(systemName: showDailyQuote ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 12))
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
 
-                Circle()
-                    .trim(from: 0, to: completionRatio)
-                    .stroke(
-                        AngularGradient(
-                            colors: [DS.Colors.accentPink, DS.Colors.accentLavender, DS.Colors.accentIndigo],
-                            center: .center
-                        ),
-                        style: StrokeStyle(lineWidth: 6, lineCap: .round)
+                        if showDailyQuote {
+                            Text("「\(quote.text)」")
+                                .font(DS.Fonts.serif(15))
+                                .foregroundColor(DS.Colors.textPrimary)
+                                .lineSpacing(6)
+                                .transition(.opacity.combined(with: .move(edge: .top)))
+
+                            Text("── \(quote.workTitle)　\(quote.authorName)")
+                                .font(DS.Fonts.body(12))
+                                .foregroundColor(DS.Colors.textSecondary)
+                                .transition(.opacity)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(DS.Spacing.xl)
+                    .background(
+                        RoundedRectangle(cornerRadius: DS.Radius.lg)
+                            .fill(DS.Colors.bgCard.opacity(0.6))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: DS.Radius.lg)
+                                    .strokeBorder(DS.Colors.accentWarm.opacity(0.15), lineWidth: 1)
+                            )
                     )
-                    .frame(width: 80, height: 80)
-                    .rotationEffect(.degrees(-90))
-
-                VStack(spacing: 0) {
-                    Text("\(collection.count)")
-                        .font(DS.Fonts.serifBold(24))
-                        .foregroundColor(DS.Colors.textPrimary)
-                    Text("/\(EmotionTag.allCases.count)")
-                        .font(DS.Fonts.caption())
-                        .foregroundColor(DS.Colors.textSecondary)
                 }
+                .buttonStyle(.plain)
+                .padding(.horizontal, DS.Spacing.xl)
+                .padding(.bottom, DS.Spacing.xl)
+                .onAppear { showDailyQuote = true }
             }
-
-            VStack(alignment: .leading, spacing: DS.Spacing.sm) {
-                collectionStat(
-                    label: "発見した感情",
-                    value: "\(collection.count)種類",
-                    color: DS.Colors.accentPink
-                )
-                collectionStat(
-                    label: "共鳴した感情",
-                    value: "\(collection.filter { $0.masteryLevel == .mastered }.count)種類",
-                    color: DS.Colors.accentLavender
-                )
-                collectionStat(
-                    label: "保存した名言",
-                    value: "\(quotes.count)件",
-                    color: DS.Colors.accentWarm
-                )
-            }
-        }
-        .padding(DS.Spacing.xl)
-        .glassCard()
-        .padding(.horizontal, DS.Spacing.xl)
-        .padding(.bottom, DS.Spacing.xl)
-    }
-
-    private func collectionStat(label: String, value: String, color: Color) -> some View {
-        HStack(spacing: DS.Spacing.sm) {
-            Circle()
-                .fill(color)
-                .frame(width: 6, height: 6)
-            Text(label)
-                .font(DS.Fonts.caption())
-                .foregroundColor(DS.Colors.textSecondary)
-            Spacer()
-            Text(value)
-                .font(DS.Fonts.body(12, weight: .medium))
-                .foregroundColor(DS.Colors.textPrimary)
         }
     }
 
@@ -127,8 +101,7 @@ struct CollectionView: View {
 
     private var segmentPicker: some View {
         HStack(spacing: 0) {
-            ForEach(["感情図鑑", "名言集"], id: \.self) { tab in
-                let index = tab == "感情図鑑" ? 0 : 1
+            ForEach(Array(tabs.enumerated()), id: \.offset) { index, tab in
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.2)) { selectedTab = index }
                 }) {
@@ -136,7 +109,7 @@ struct CollectionView: View {
                         .font(DS.Fonts.small())
                         .fontWeight(.medium)
                         .foregroundColor(selectedTab == index ? .white : DS.Colors.textSecondary)
-                        .padding(.horizontal, DS.Spacing.xl)
+                        .padding(.horizontal, DS.Spacing.lg)
                         .padding(.vertical, DS.Spacing.sm)
                         .background(
                             Capsule()
@@ -155,131 +128,23 @@ struct CollectionView: View {
         .padding(.bottom, DS.Spacing.xl)
     }
 
-    // MARK: - Emotion Book
-
-    private var emotionBookSection: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            masteryLegend
-
-            let columns = [
-                GridItem(.flexible(), spacing: DS.Spacing.md),
-                GridItem(.flexible(), spacing: DS.Spacing.md),
-                GridItem(.flexible(), spacing: DS.Spacing.md),
-            ]
-
-            LazyVGrid(columns: columns, spacing: DS.Spacing.md) {
-                ForEach(EmotionTag.allCases) { tag in
-                    let entry = collection.first(where: { $0.emotionRawValue == tag.rawValue })
-                    EmotionCollectionCard(tag: tag, entry: entry)
-                }
-            }
-            .padding(.horizontal, DS.Spacing.xl)
-
-            if collection.isEmpty {
-                emotionEmptyState
-            } else {
-                recentDiscoveries
-            }
-        }
-        .padding(.bottom, DS.Spacing.xxxl)
-    }
-
-    private var masteryLegend: some View {
-        HStack(spacing: DS.Spacing.lg) {
-            ForEach([EmotionMastery.undiscovered, .encountered, .familiar, .mastered], id: \.rawValue) { mastery in
-                HStack(spacing: DS.Spacing.xs) {
-                    Circle()
-                        .fill(Color.white.opacity(mastery.opacity * 0.5))
-                        .frame(width: 8, height: 8)
-                    Text(mastery.rawValue)
-                        .font(DS.Fonts.caption())
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            }
-        }
-        .padding(.horizontal, DS.Spacing.xl)
-    }
-
-    private var emotionEmptyState: some View {
-        VStack(spacing: DS.Spacing.lg) {
-            Text("作品を読むと、出会った感情が\nここに集まっていきます")
-                .font(DS.Fonts.body(14))
-                .foregroundColor(DS.Colors.textSecondary)
-                .multilineTextAlignment(.center)
-                .lineSpacing(4)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.top, DS.Spacing.xxl)
-    }
-
-    private var recentDiscoveries: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            Text("最近の発見")
-                .sectionHeader()
-                .padding(.horizontal, DS.Spacing.xl)
-
-            LazyVStack(spacing: DS.Spacing.sm) {
-                ForEach(collection.sorted(by: { $0.firstEncountered > $1.firstEncountered }).prefix(5)) { entry in
-                    if let tag = entry.tag {
-                        HStack(spacing: DS.Spacing.md) {
-                            Text(tag.emoji)
-                                .font(.system(size: 20))
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(tag.rawValue)
-                                    .font(DS.Fonts.body(14, weight: .medium))
-                                    .foregroundColor(DS.Colors.textPrimary)
-
-                                HStack(spacing: DS.Spacing.sm) {
-                                    intensityDots(entry.averageIntensity)
-                                    Text("\(entry.encounters)回出会い")
-                                        .font(DS.Fonts.caption())
-                                        .foregroundColor(DS.Colors.textSecondary)
-                                }
-                            }
-
-                            Spacer()
-
-                            Text(entry.masteryLevel.rawValue)
-                                .font(DS.Fonts.caption())
-                                .foregroundColor(tag.color)
-                                .padding(.horizontal, DS.Spacing.sm)
-                                .padding(.vertical, DS.Spacing.xs)
-                                .background(
-                                    Capsule().fill(tag.color.opacity(0.15))
-                                )
-                        }
-                        .padding(DS.Spacing.md)
-                        .glassCard(cornerRadius: DS.Radius.sm)
-                    }
-                }
-            }
-            .padding(.horizontal, DS.Spacing.xl)
-        }
-        .padding(.top, DS.Spacing.xl)
-    }
-
-    private func intensityDots(_ intensity: Int) -> some View {
-        HStack(spacing: 2) {
-            ForEach(0..<5, id: \.self) { i in
-                Circle()
-                    .fill(i < intensity / 20
-                        ? DS.Colors.accentPink
-                        : Color.white.opacity(0.1))
-                    .frame(width: 5, height: 5)
-            }
-        }
-    }
-
-    // MARK: - Quotes
+    // MARK: - Quotes Tab
 
     private var quotesSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            if quotes.isEmpty {
+            if store.savedQuotes.isEmpty {
                 quotesEmptyState
             } else {
+                HStack {
+                    Text("\(store.savedQuotes.count)件の言葉")
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
+                    Spacer()
+                }
+                .padding(.horizontal, DS.Spacing.xl)
+
                 LazyVStack(spacing: DS.Spacing.lg) {
-                    ForEach(quotes) { quote in
+                    ForEach(store.savedQuotes) { quote in
                         QuoteCard(quote: quote) {
                             withAnimation {
                                 store.removeQuote(quote)
@@ -297,10 +162,10 @@ struct CollectionView: View {
         VStack(spacing: DS.Spacing.lg) {
             Text("📝")
                 .font(.system(size: 48))
-            Text("まだ保存した名言がありません")
+            Text("まだ保存した言葉がありません")
                 .font(DS.Fonts.body(14, weight: .medium))
                 .foregroundColor(DS.Colors.textPrimary)
-            Text("読書中にブックマークボタンで\n気になった一文を保存できます")
+            Text("読書中にブックマークボタンで\n心に残った一文を保存できます")
                 .font(DS.Fonts.body(12))
                 .foregroundColor(DS.Colors.textSecondary)
                 .multilineTextAlignment(.center)
@@ -308,6 +173,189 @@ struct CollectionView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 60)
+    }
+
+    // MARK: - Reading History Tab
+
+    private var readingHistorySection: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
+            readingFootprints
+
+            if !store.currentlyReading.isEmpty {
+                currentlyReadingSection
+            }
+
+            completedWorksSection
+        }
+        .padding(.bottom, DS.Spacing.xxxl)
+    }
+
+    private var readingFootprints: some View {
+        VStack(spacing: DS.Spacing.md) {
+            HStack(spacing: DS.Spacing.md) {
+                footprintStat(value: "\(store.completedWorkCount)", label: "読破作品", icon: "📚")
+                footprintStat(value: "\(store.completedAuthorCount)", label: "読んだ作者", icon: "🖋️")
+            }
+            HStack(spacing: DS.Spacing.md) {
+                footprintStat(value: "\(store.savedQuotes.count)", label: "保存した言葉", icon: "💬")
+                footprintStat(value: "\(store.streak.currentStreak)", label: "連続読書日数", icon: "🔥")
+            }
+        }
+        .padding(.horizontal, DS.Spacing.xl)
+    }
+
+    private func footprintStat(value: String, label: String, icon: String) -> some View {
+        HStack(spacing: DS.Spacing.md) {
+            Text(icon)
+                .font(.system(size: 20))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(value)
+                    .font(DS.Fonts.serifBold(20))
+                    .foregroundColor(DS.Colors.textPrimary)
+                Text(label)
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+
+            Spacer()
+        }
+        .padding(DS.Spacing.lg)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .glassCard()
+    }
+
+    private var currentlyReadingSection: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
+            Text("読書中")
+                .sectionHeader()
+                .padding(.horizontal, DS.Spacing.xl)
+
+            LazyVStack(spacing: DS.Spacing.sm) {
+                ForEach(store.currentlyReading) { work in
+                    NavigationLink(destination: ReadingView(work: work)) {
+                        HStack(spacing: DS.Spacing.md) {
+                            Text(work.coverEmoji)
+                                .font(.system(size: 28))
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(work.title)
+                                    .font(DS.Fonts.body(14, weight: .medium))
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Text(work.authorName)
+                                    .font(DS.Fonts.caption())
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+
+                            Spacer()
+
+                            let progress = store.getProgress(for: work.id)
+                            Text("\(progress.currentIndex)/\(work.segments.count)")
+                                .font(DS.Fonts.caption())
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                        .padding(DS.Spacing.md)
+                        .glassCard(cornerRadius: DS.Radius.sm)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+        }
+        .padding(.top, DS.Spacing.md)
+    }
+
+    private var completedWorksSection: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
+            Text("読了した作品")
+                .sectionHeader()
+                .padding(.horizontal, DS.Spacing.xl)
+
+            let completed = WorksData.all.filter { store.getProgress(for: $0.id).completed }
+
+            if completed.isEmpty {
+                Text("まだ読了した作品はありません")
+                    .font(DS.Fonts.body(13))
+                    .foregroundColor(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.xl)
+            } else {
+                LazyVStack(spacing: DS.Spacing.sm) {
+                    ForEach(completed) { work in
+                        HStack(spacing: DS.Spacing.md) {
+                            Text(work.coverEmoji)
+                                .font(.system(size: 28))
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(work.title)
+                                    .font(DS.Fonts.body(14, weight: .medium))
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Text(work.authorName)
+                                    .font(DS.Fonts.caption())
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+
+                            Spacer()
+
+                            Text("読了")
+                                .font(DS.Fonts.caption())
+                                .foregroundColor(DS.Colors.accentIndigo)
+                        }
+                        .padding(DS.Spacing.md)
+                        .glassCard(cornerRadius: DS.Radius.sm)
+                    }
+                }
+                .padding(.horizontal, DS.Spacing.xl)
+            }
+        }
+        .padding(.top, DS.Spacing.md)
+    }
+
+    // MARK: - Badges Tab
+
+    private var badgesSection: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
+            HStack {
+                Spacer()
+                Text("\(store.unlockedAchievementIds.count)/\(AchievementsData.all.count)")
+                    .font(DS.Fonts.caption())
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+
+            ForEach(Achievement.AchievementCategory.allCases, id: \.rawValue) { category in
+                badgeCategorySection(category)
+            }
+        }
+        .padding(.bottom, DS.Spacing.xxxl)
+    }
+
+    private func badgeCategorySection(_ category: Achievement.AchievementCategory) -> some View {
+        let badges = AchievementsData.all.filter { $0.category == category }
+
+        return VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+            HStack(spacing: DS.Spacing.xs) {
+                Circle()
+                    .fill(category.color)
+                    .frame(width: 8, height: 8)
+                Text(category.rawValue)
+                    .font(DS.Fonts.body(12, weight: .medium))
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            .padding(.horizontal, DS.Spacing.xl)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: DS.Spacing.md) {
+                    ForEach(badges) { badge in
+                        AchievementBadge(
+                            achievement: badge,
+                            isUnlocked: store.isAchievementUnlocked(badge.id)
+                        )
+                    }
+                }
+                .padding(.horizontal, DS.Spacing.xl)
+            }
+        }
+        .padding(.bottom, DS.Spacing.sm)
     }
 }
 

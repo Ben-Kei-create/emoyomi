@@ -15,12 +15,8 @@ final class StoreManager {
     private let favoritesKey = "emoyomi_favorites"
     private let quotesKey = "emoyomi_quotes"
     private let pollVotesKey = "emoyomi_poll_votes"
-    private let xpKey = "emoyomi_xp"
-    private let emotionCollectionKey = "emoyomi_emotion_collection"
     private let achievementsKey = "emoyomi_achievements"
     private let streakKey = "emoyomi_streak"
-    private let segmentsReadKey = "emoyomi_segments_read"
-    private let modesUsedKey = "emoyomi_modes_used"
 
     // MARK: - Premium & Favorites
 
@@ -63,12 +59,12 @@ final class StoreManager {
         }
     }
 
-    // MARK: - Quotes
+    // MARK: - Saved Quotes
 
-    var savedQuotes: [FavoriteQuote] {
+    var savedQuotes: [SavedQuote] {
         get {
             guard let data = UserDefaults.standard.data(forKey: quotesKey),
-                  let quotes = try? JSONDecoder().decode([FavoriteQuote].self, from: data)
+                  let quotes = try? JSONDecoder().decode([SavedQuote].self, from: data)
             else { return [] }
             return quotes
         }
@@ -79,15 +75,19 @@ final class StoreManager {
         }
     }
 
-    func saveQuote(_ quote: FavoriteQuote) {
+    func saveQuote(_ quote: SavedQuote) {
         var quotes = savedQuotes
-        guard !quotes.contains(where: { $0.text == quote.text && $0.workTitle == quote.workTitle }) else { return }
+        guard !quotes.contains(where: { $0.text == quote.text && $0.workId == quote.workId }) else { return }
         quotes.insert(quote, at: 0)
         savedQuotes = quotes
     }
 
-    func removeQuote(_ quote: FavoriteQuote) {
+    func removeQuote(_ quote: SavedQuote) {
         savedQuotes.removeAll { $0.id == quote.id }
+    }
+
+    func randomQuote() -> SavedQuote? {
+        savedQuotes.randomElement()
     }
 
     // MARK: - Polls
@@ -103,98 +103,27 @@ final class StoreManager {
         UserDefaults.standard.set(votes, forKey: pollVotesKey)
     }
 
-    // MARK: - XP & Level
+    // MARK: - Reading Stats
 
-    var totalXP: Int {
-        get { UserDefaults.standard.integer(forKey: xpKey) }
-        set { UserDefaults.standard.set(newValue, forKey: xpKey) }
+    var completedWorkCount: Int {
+        WorksData.all.filter { getProgress(for: $0.id).completed }.count
     }
 
-    var currentLevel: ReaderLevel {
-        ReaderLevel.current(for: totalXP)
+    var completedAuthorCount: Int {
+        let completedWorkIds = Set(WorksData.all.filter { getProgress(for: $0.id).completed }.map(\.authorId))
+        return completedWorkIds.count
     }
 
-    @discardableResult
-    func addXP(_ source: XPSource) -> Int {
-        let amount = source.amount
-        totalXP += amount
-        return amount
-    }
-
-    // MARK: - Segments Read
-
-    var totalSegmentsRead: Int {
-        get { UserDefaults.standard.integer(forKey: segmentsReadKey) }
-        set { UserDefaults.standard.set(newValue, forKey: segmentsReadKey) }
-    }
-
-    func incrementSegmentsRead() {
-        totalSegmentsRead += 1
-    }
-
-    // MARK: - Reading Modes Used
-
-    var modesUsed: [String] {
-        get { UserDefaults.standard.stringArray(forKey: modesUsedKey) ?? [] }
-        set { UserDefaults.standard.set(newValue, forKey: modesUsedKey) }
-    }
-
-    func recordModeUsed(_ mode: ReadingMode) {
-        var modes = modesUsed
-        if !modes.contains(mode.rawValue) {
-            modes.append(mode.rawValue)
-            modesUsed = modes
+    var currentlyReading: [Work] {
+        WorksData.all.filter { work in
+            let progress = getProgress(for: work.id)
+            return progress.currentIndex > 0 && !progress.completed
         }
     }
 
-    // MARK: - Emotion Collection
-
-    var emotionCollection: [EmotionCollectionEntry] {
-        get {
-            guard let data = UserDefaults.standard.data(forKey: emotionCollectionKey),
-                  let entries = try? JSONDecoder().decode([EmotionCollectionEntry].self, from: data)
-            else { return [] }
-            return entries
-        }
-        set {
-            if let data = try? JSONEncoder().encode(newValue) {
-                UserDefaults.standard.set(data, forKey: emotionCollectionKey)
-            }
-        }
-    }
-
-    var discoveredEmotionCount: Int {
-        emotionCollection.count
-    }
-
-    @discardableResult
-    func recordEmotionEncounter(tag: EmotionTag, intensity: Int, workId: String) -> Bool {
-        var collection = emotionCollection
-        let isNew: Bool
-
-        if let index = collection.firstIndex(where: { $0.emotionRawValue == tag.rawValue }) {
-            collection[index].encounters += 1
-            collection[index].maxIntensity = max(collection[index].maxIntensity, intensity)
-            collection[index].totalIntensity += intensity
-            if !collection[index].sourceWorkIds.contains(workId) {
-                collection[index].sourceWorkIds.append(workId)
-            }
-            isNew = false
-        } else {
-            let entry = EmotionCollectionEntry(
-                emotionRawValue: tag.rawValue,
-                encounters: 1,
-                maxIntensity: intensity,
-                totalIntensity: intensity,
-                firstEncountered: Date(),
-                sourceWorkIds: [workId]
-            )
-            collection.append(entry)
-            isNew = true
-        }
-
-        emotionCollection = collection
-        return isNew
+    func allWorksCompleted(by authorId: String) -> Bool {
+        let authorWorks = WorksData.all.filter { $0.authorId == authorId }
+        return !authorWorks.isEmpty && authorWorks.allSatisfy { getProgress(for: $0.id).completed }
     }
 
     // MARK: - Achievements
@@ -217,25 +146,24 @@ final class StoreManager {
         return true
     }
 
+    @discardableResult
     func checkAchievements() -> [Achievement] {
         var newlyUnlocked: [Achievement] = []
 
         let checks: [(String, Bool)] = [
-            ("first-segment", totalSegmentsRead >= 1),
             ("first-complete", completedWorkCount >= 1),
+            ("three-complete", completedWorkCount >= 3),
             ("all-complete", completedWorkCount >= WorksData.all.count),
-            ("three-modes", modesUsed.count >= 3),
             ("first-quote", savedQuotes.count >= 1),
             ("ten-quotes", savedQuotes.count >= 10),
             ("twentyfive-quotes", savedQuotes.count >= 25),
-            ("first-poll", (UserDefaults.standard.stringArray(forKey: pollVotesKey) ?? []).count >= 1),
-            ("first-emotion", discoveredEmotionCount >= 1),
-            ("seven-emotions", discoveredEmotionCount >= 7),
-            ("all-emotions", discoveredEmotionCount >= EmotionTag.allCases.count),
-            ("max-intensity", emotionCollection.contains(where: { $0.maxIntensity >= 95 })),
             ("streak-3", streak.longestStreak >= 3),
             ("streak-7", streak.longestStreak >= 7),
             ("streak-30", streak.longestStreak >= 30),
+            ("author-dazai", allWorksCompleted(by: "dazai")),
+            ("author-akutagawa", allWorksCompleted(by: "akutagawa")),
+            ("author-natsume", allWorksCompleted(by: "natsume")),
+            ("author-miyazawa", allWorksCompleted(by: "miyazawa")),
         ]
 
         for (id, condition) in checks {
@@ -247,10 +175,6 @@ final class StoreManager {
         }
 
         return newlyUnlocked
-    }
-
-    var completedWorkCount: Int {
-        WorksData.all.filter { getProgress(for: $0.id).completed }.count
     }
 
     // MARK: - Reading Streak
@@ -271,16 +195,8 @@ final class StoreManager {
 
     func recordDailyReading() {
         var s = streak
-        let wasActiveToday = s.isActiveToday
         s.recordReading()
         streak = s
-
-        if !wasActiveToday {
-            addXP(.dailyReading)
-            if s.currentStreak > 1 {
-                addXP(.streakBonus(days: s.currentStreak))
-            }
-        }
     }
 
     private init() {}

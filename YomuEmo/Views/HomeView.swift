@@ -43,7 +43,6 @@ struct HomeView: View {
                     .foregroundColor(DS.Colors.textSecondary)
             }
             Spacer()
-            LevelBadge(xp: store.totalXP, compact: true)
         }
         .padding(.horizontal, DS.Spacing.xl)
         .padding(.top, DS.Spacing.lg)

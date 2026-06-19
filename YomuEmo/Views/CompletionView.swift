@@ -52,7 +52,6 @@ struct CompletionView: View {
                         .offset(y: showContent ? 0 : 16)
 
                     VStack(spacing: DS.Spacing.md) {
-                        xpSummaryCard
                         emotionSummaryCard
                         themeCard
                         modernConnectionCard
@@ -110,31 +109,6 @@ struct CompletionView: View {
                 showContent = true
             }
         }
-    }
-
-    private var xpSummaryCard: some View {
-        VStack(spacing: DS.Spacing.md) {
-            HStack(spacing: DS.Spacing.sm) {
-                Text("📖")
-                    .font(.system(size: 16))
-                Text("読書の経験値")
-                    .font(DS.Fonts.caption())
-                    .foregroundColor(DS.Colors.accentNeon)
-                    .textCase(.uppercase)
-                    .tracking(1)
-            }
-
-            Text("+100 XP")
-                .font(DS.Fonts.serifBold(24))
-                .foregroundStyle(DS.Gradients.xpBar)
-
-            XPBar(xp: store.totalXP)
-                .padding(.top, DS.Spacing.xs)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(DS.Spacing.xl)
-        .glassCard()
-        .padding(.horizontal, DS.Spacing.xl)
     }
 
     private var emotionSummaryCard: some View {
@@ -246,12 +220,14 @@ struct CompletionView: View {
                 ($0.emotionScores.values.max() ?? 0) < ($1.emotionScores.values.max() ?? 0)
             })
             if let segment = bestSegment {
-                let quote = FavoriteQuote(
+                let quote = SavedQuote(
                     text: segment.originalText,
+                    workId: work.id,
                     workTitle: work.title,
+                    authorId: work.authorId,
                     authorName: work.authorName
                 )
-                StoreManager.shared.saveQuote(quote)
+                store.saveQuote(quote)
                 withAnimation { quoteSaved = true }
             }
         }) {
@@ -261,11 +237,11 @@ struct CompletionView: View {
                     .foregroundColor(quoteSaved ? DS.Colors.popYellow : DS.Colors.textSecondary)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(quoteSaved ? "保存しました！" : "印象に残った一文を保存")
+                    Text(quoteSaved ? "ことば帳に保存しました！" : "印象に残った一文を保存")
                         .font(DS.Fonts.body(14, weight: .medium))
                         .foregroundColor(DS.Colors.textPrimary)
                     if !quoteSaved {
-                        Text("お気に入りタブで確認できます")
+                        Text("ことば帳で確認できます")
                             .font(DS.Fonts.body(11))
                             .foregroundColor(DS.Colors.textSecondary)
                     }

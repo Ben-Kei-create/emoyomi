@@ -10,9 +10,8 @@ struct ProfileView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     headerSection
-                    levelSection
+                    footprintsSection
                     streakSection
-                    statsSection
                     achievementsSection
                     premiumSection
                 }
@@ -30,38 +29,49 @@ struct ProfileView: View {
             .padding(.bottom, DS.Spacing.xl)
     }
 
-    private var levelSection: some View {
-        LevelBadge(xp: store.totalXP)
-            .padding(DS.Spacing.xl)
-            .glassCard()
-            .padding(.horizontal, DS.Spacing.xl)
-            .padding(.bottom, DS.Spacing.xl)
-    }
-
-    private var streakSection: some View {
+    private var footprintsSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            Text("読書の記録")
-                .sectionHeader()
-                .padding(.horizontal, DS.Spacing.xl)
-
-            StreakCard(streak: store.streak)
-                .padding(.horizontal, DS.Spacing.xl)
-        }
-        .padding(.bottom, DS.Spacing.xl)
-    }
-
-    private var statsSection: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.md) {
-            Text("あなたの軌跡")
+            Text("読書の足あと")
                 .sectionHeader()
                 .padding(.horizontal, DS.Spacing.xl)
 
             HStack(spacing: DS.Spacing.md) {
-                statCard(value: "\(store.totalSegmentsRead)", label: "読んだ\nセグメント", icon: "📄")
-                statCard(value: "\(store.completedWorkCount)", label: "読了した\n作品", icon: "📚")
-                statCard(value: "\(store.savedQuotes.count)", label: "保存した\n名言", icon: "💬")
+                statCard(value: "\(store.completedWorkCount)", label: "読破\n作品", icon: "📚")
+                statCard(value: "\(store.completedAuthorCount)", label: "読んだ\n作者", icon: "🖋️")
+                statCard(value: "\(store.savedQuotes.count)", label: "保存した\n言葉", icon: "💬")
             }
             .padding(.horizontal, DS.Spacing.xl)
+
+            if !store.currentlyReading.isEmpty {
+                VStack(alignment: .leading, spacing: DS.Spacing.sm) {
+                    Text("いま読んでいる作品")
+                        .font(DS.Fonts.caption())
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .padding(.horizontal, DS.Spacing.xl)
+
+                    ForEach(store.currentlyReading) { work in
+                        NavigationLink(destination: ReadingView(work: work)) {
+                            HStack(spacing: DS.Spacing.md) {
+                                Text(work.coverEmoji)
+                                    .font(.system(size: 24))
+                                Text(work.title)
+                                    .font(DS.Fonts.body(14, weight: .medium))
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Spacer()
+                                let progress = store.getProgress(for: work.id)
+                                Text("\(progress.currentIndex)/\(work.segments.count)")
+                                    .font(DS.Fonts.caption())
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+                            .padding(DS.Spacing.md)
+                            .glassCard(cornerRadius: DS.Radius.sm)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal, DS.Spacing.xl)
+                }
+                .padding(.top, DS.Spacing.sm)
+            }
         }
         .padding(.bottom, DS.Spacing.xl)
     }
@@ -83,6 +93,18 @@ struct ProfileView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, DS.Spacing.lg)
         .glassCard()
+    }
+
+    private var streakSection: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.md) {
+            Text("読書の記録")
+                .sectionHeader()
+                .padding(.horizontal, DS.Spacing.xl)
+
+            StreakCard(streak: store.streak)
+                .padding(.horizontal, DS.Spacing.xl)
+        }
+        .padding(.bottom, DS.Spacing.xl)
     }
 
     private var achievementsSection: some View {

@@ -17,10 +17,7 @@ final class ReadingViewModel {
     var readingMode: ReadingMode = .original
     var showPoll: Bool = false
     var quoteSaved: Bool = false
-    var xpGained: Int = 0
-    var newEmotionsDiscovered: [EmotionTag] = []
-    var xpToastAmount: Int = 0
-    var showXPToast: Bool = false
+    var showSaveToast: Bool = false
 
     private let store = StoreManager.shared
 
@@ -79,30 +76,10 @@ final class ReadingViewModel {
         let modes = ReadingMode.allCases
         guard let idx = modes.firstIndex(of: readingMode) else { return }
         readingMode = modes[(idx + 1) % modes.count]
-        store.recordModeUsed(readingMode)
     }
 
     func next() {
-        store.incrementSegmentsRead()
         store.recordDailyReading()
-        store.recordModeUsed(readingMode)
-
-        var roundXP = store.addXP(.readSegment)
-
-        for (tag, score) in currentSegment.emotionScores where score >= 20 {
-            let isNew = store.recordEmotionEncounter(tag: tag, intensity: score, workId: work.id)
-            if isNew {
-                newEmotionsDiscovered.append(tag)
-                roundXP += store.addXP(.discoverEmotion)
-            }
-        }
-
-        xpGained += roundXP
-        xpToastAmount = roundXP
-        showXPToast = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation(.easeOut(duration: 0.3)) { self.showXPToast = false }
-        }
 
         if currentIndex >= work.segments.count - 1 {
             store.saveProgress(ReadingProgress(
@@ -110,7 +87,6 @@ final class ReadingViewModel {
                 currentIndex: work.segments.count,
                 completed: true
             ))
-            store.addXP(.completeWork)
             store.checkAchievements()
             isCompleted = true
         } else {
@@ -120,6 +96,7 @@ final class ReadingViewModel {
             showPoll = false
             selectedGlossary = nil
             quoteSaved = false
+            showSaveToast = false
             store.saveProgress(ReadingProgress(
                 workId: work.id,
                 currentIndex: currentIndex,
@@ -132,8 +109,6 @@ final class ReadingViewModel {
                 }
             }
         }
-
-        store.checkAchievements()
     }
 
     func reset() {
@@ -144,8 +119,7 @@ final class ReadingViewModel {
         selectedGlossary = nil
         isCompleted = false
         quoteSaved = false
-        xpGained = 0
-        newEmotionsDiscovered = []
+        showSaveToast = false
         store.saveProgress(ReadingProgress(
             workId: work.id,
             currentIndex: 0,
@@ -154,14 +128,19 @@ final class ReadingViewModel {
     }
 
     func saveCurrentQuote() {
-        let quote = FavoriteQuote(
+        let quote = SavedQuote(
             text: currentSegment.originalText,
+            workId: work.id,
             workTitle: work.title,
+            authorId: work.authorId,
             authorName: work.authorName
         )
         store.saveQuote(quote)
-        store.addXP(.saveQuote)
         store.checkAchievements()
         quoteSaved = true
+        showSaveToast = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeOut(duration: 0.3)) { self.showSaveToast = false }
+        }
     }
 }

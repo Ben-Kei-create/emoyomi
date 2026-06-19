@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     @State private var store = StoreManager.shared
-    @State private var quotes: [FavoriteQuote] = []
+    @State private var quotes: [SavedQuote] = []
 
     var body: some View {
         ZStack {

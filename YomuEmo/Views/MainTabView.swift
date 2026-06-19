@@ -17,8 +17,8 @@ struct MainTabView: View {
 
             CollectionView()
                 .tabItem {
-                    Image(systemName: "square.grid.2x2.fill")
-                    Text("コレクション")
+                    Image(systemName: "bookmark.fill")
+                    Text("ことば帳")
                 }
 
             ProfileView()
