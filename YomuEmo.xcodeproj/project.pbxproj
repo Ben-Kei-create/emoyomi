@@ -34,7 +34,6 @@
 		A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */; };
 		A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000019 /* AppRoute.swift */; };
 		A1B2C3D4E5F6000100001A /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001A /* AssetNames.swift */; };
-		A1B2C3D4E5F6000100001B /* OriginalEasyToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */; };
 		A1B2C3D4E5F6000100001C /* ReadingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001C /* ReadingCard.swift */; };
 		A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001D /* PrimaryButton.swift */; };
 		A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001E /* MainTabView.swift */; };
@@ -46,7 +45,6 @@
 		A1B2C3D4E5F60001000024 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000024 /* FavoritesView.swift */; };
 		A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000025 /* PollCard.swift */; };
 		A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000026 /* QuoteCard.swift */; };
-		A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */; };
 		A1B2C3D4E5F6000100002A /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002A /* Achievement.swift */; };
 		A1B2C3D4E5F6000100002B /* ReadingStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002B /* ReadingStreak.swift */; };
 		A1B2C3D4E5F6000100002D /* StreakCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002D /* StreakCard.swift */; };
@@ -83,7 +81,6 @@
 		A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuEmoDesignSystem.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000019 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001A /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalEasyToggle.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001C /* ReadingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -95,7 +92,6 @@
 		A1B2C3D4E5F60002000024 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000025 /* PollCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000026 /* QuoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCard.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingModeToggle.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200002A /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200002B /* ReadingStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingStreak.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200002D /* StreakCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCard.swift; sourceTree = "<group>"; };
@@ -208,13 +204,11 @@
 				A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */,
 				A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */,
 
-				A1B2C3D4E5F6000200001B /* OriginalEasyToggle.swift */,
 				A1B2C3D4E5F6000200001C /* ReadingCard.swift */,
 				A1B2C3D4E5F6000200001D /* PrimaryButton.swift */,
 				A1B2C3D4E5F6000200001F /* WorkCard.swift */,
 				A1B2C3D4E5F60002000025 /* PollCard.swift */,
 				A1B2C3D4E5F60002000026 /* QuoteCard.swift */,
-				A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */,
 				A1B2C3D4E5F6000200002D /* StreakCard.swift */,
 				A1B2C3D4E5F6000200002E /* AchievementBadge.swift */,
 				A1B2C3D4E5F60002000035 /* BannerAdView.swift */,
@@ -358,7 +352,6 @@
 				A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */,
 				A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */,
 				A1B2C3D4E5F6000100001A /* AssetNames.swift in Sources */,
-				A1B2C3D4E5F6000100001B /* OriginalEasyToggle.swift in Sources */,
 				A1B2C3D4E5F6000100001C /* ReadingCard.swift in Sources */,
 				A1B2C3D4E5F6000100001D /* PrimaryButton.swift in Sources */,
 				A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */,
@@ -370,7 +363,6 @@
 				A1B2C3D4E5F60001000024 /* FavoritesView.swift in Sources */,
 				A1B2C3D4E5F60001000025 /* PollCard.swift in Sources */,
 				A1B2C3D4E5F60001000026 /* QuoteCard.swift in Sources */,
-				A1B2C3D4E5F60001000027 /* ReadingModeToggle.swift in Sources */,
 				A1B2C3D4E5F6000100002A /* Achievement.swift in Sources */,
 				A1B2C3D4E5F6000100002B /* ReadingStreak.swift in Sources */,
 				A1B2C3D4E5F6000100002D /* StreakCard.swift in Sources */,
