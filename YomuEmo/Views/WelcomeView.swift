@@ -41,7 +41,7 @@ struct WelcomeView: View {
                     .foregroundColor(DS.Colors.textSecondary.opacity(0.6))
                     .padding(.bottom, 48)
 
-                NavigationLink(destination: HomeView()) {
+                NavigationLink(destination: MainTabView()) {
                     Text("はじめる")
                         .font(DS.Fonts.body(18, weight: .medium))
                         .foregroundColor(.white)

@@ -65,7 +65,7 @@ struct PremiumView: View {
                     .foregroundStyle(DS.Gradients.brandTitle)
             }
 
-            Text("買い切りで、広告なし。ずっと使える。")
+            Text("v1.0は全作品・全機能が無料。広告あり。")
                 .font(DS.Fonts.body(14))
                 .foregroundColor(DS.Colors.textSecondary)
         }
