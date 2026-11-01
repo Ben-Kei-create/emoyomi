@@ -504,6 +504,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				EXECUTABLE_NAME = YomuEmo;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yomuemo.app;
 				PRODUCT_NAME = "よむエモ";
@@ -524,6 +525,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"YomuEmo/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				EXECUTABLE_NAME = YomuEmo;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = YomuEmo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
