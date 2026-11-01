@@ -14,9 +14,9 @@ struct TextSegment: Identifiable {
         originalText: String,
         easyText: String,
         emoText: String = "",
-        glossaryEntries: [GlossaryEntry] = [],
         vibesSummary: String,
         emotionScores: [EmotionTag: Int],
+        glossaryEntries: [GlossaryEntry] = [],
         pollIndex: Int? = nil
     ) {
         self.originalText = originalText

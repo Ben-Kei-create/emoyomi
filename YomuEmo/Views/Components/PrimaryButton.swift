@@ -11,7 +11,7 @@ struct PrimaryButton: View {
             Text(title)
                 .font(DS.Fonts.body(18, weight: .medium))
                 .foregroundColor(.white)
-                .frame(width: width, maxWidth: width == nil ? .infinity : nil)
+                .frame(maxWidth: width ?? .infinity)
                 .frame(height: height)
                 .background(
                     Capsule()
