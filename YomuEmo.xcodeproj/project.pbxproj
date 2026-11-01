@@ -29,6 +29,7 @@
 		A1B2C3D4E5F60001000014 /* EmotionTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */; };
 
 		A1B2C3D4E5F60001000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000016 /* Assets.xcassets */; };
+		A1B2C3D4E5F60001000034 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */; };
 		A1B2C3D4E5F60001000017 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */; };
 		A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */; };
 		A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000019 /* AppRoute.swift */; };
@@ -100,6 +101,7 @@
 		A1B2C3D4E5F6000200002E /* AchievementBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementBadge.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000031 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000032 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F60002000001 /* YomuEmoApp.swift */,
+				A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */,
 				A1B2C3D4E5F60005000003 /* Models */,
 				A1B2C3D4E5F60005000004 /* Data */,
 				A1B2C3D4E5F60005000005 /* ViewModels */,
@@ -315,6 +318,7 @@
 			files = (
 				A1B2C3D4E5F60001000017 /* Preview Assets.xcassets in Resources */,
 				A1B2C3D4E5F60001000016 /* Assets.xcassets in Resources */,
+				A1B2C3D4E5F60001000034 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
