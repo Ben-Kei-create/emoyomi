@@ -53,6 +53,7 @@
 		A1B2C3D4E5F6000100002E /* AchievementBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002E /* AchievementBadge.swift */; };
 		A1B2C3D4E5F60001000031 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000031 /* CollectionView.swift */; };
 		A1B2C3D4E5F60001000032 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000032 /* ProfileView.swift */; };
+		A1B2C3D4E5F60001000035 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000035 /* BannerAdView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,8 @@
 		A1B2C3D4E5F60002000031 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000032 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000035 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -129,6 +132,7 @@
 			children = (
 				A1B2C3D4E5F60002000001 /* YomuEmoApp.swift */,
 				A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */,
+				A1B2C3D4E5F60002000036 /* Info.plist */,
 				A1B2C3D4E5F60005000003 /* Models */,
 				A1B2C3D4E5F60005000004 /* Data */,
 				A1B2C3D4E5F60005000005 /* ViewModels */,
@@ -213,6 +217,7 @@
 				A1B2C3D4E5F60002000027 /* ReadingModeToggle.swift */,
 				A1B2C3D4E5F6000200002D /* StreakCard.swift */,
 				A1B2C3D4E5F6000200002E /* AchievementBadge.swift */,
+				A1B2C3D4E5F60002000035 /* BannerAdView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 				A1B2C3D4E5F6000100002E /* AchievementBadge.swift in Sources */,
 				A1B2C3D4E5F60001000031 /* CollectionView.swift in Sources */,
 				A1B2C3D4E5F60001000032 /* ProfileView.swift in Sources */,
+				A1B2C3D4E5F60001000035 /* BannerAdView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,12 +510,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"YomuEmo/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "よむエモ";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = YomuEmo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -534,12 +536,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"YomuEmo/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "よむエモ";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = YomuEmo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

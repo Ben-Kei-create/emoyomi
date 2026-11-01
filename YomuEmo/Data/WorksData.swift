@@ -318,7 +318,7 @@ enum WorksData {
             authorName: "芥川龍之介",
             tags: [.罪悪感, .希望, .絶望],
             readTime: "4分",
-            isPremium: true,
+            isPremium: false,
             coverEmoji: "🕸️",
             description: "地獄からの一本の蜘蛛の糸。チャンスを掴めるか、自分勝手に落ちるか。",
             afterword: Work.Afterword(
@@ -401,7 +401,7 @@ enum WorksData {
             authorName: "夏目漱石",
             tags: [.孤独, .罪悪感, .生きづらさ],
             readTime: "10分",
-            isPremium: true,
+            isPremium: false,
             coverEmoji: "💔",
             description: "信頼と裏切り、罪悪感と孤独。明治の知識人が抱えた「こころ」の闇。",
             afterword: Work.Afterword(
@@ -477,7 +477,7 @@ enum WorksData {
             authorName: "宮沢賢治",
             tags: [.孤独, .希望, .青春],
             readTime: "9分",
-            isPremium: true,
+            isPremium: false,
             coverEmoji: "🌠",
             description: "孤独な少年が銀河を旅する、美しくて切ないファンタジー。",
             afterword: Work.Afterword(

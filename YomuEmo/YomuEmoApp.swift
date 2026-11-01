@@ -1,7 +1,13 @@
 import SwiftUI
+import GoogleMobileAds
+import AppTrackingTransparency
 
 @main
 struct YomuEmoApp: App {
+    init() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+    }
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
@@ -11,6 +17,11 @@ struct YomuEmoApp: App {
                     }
             }
             .preferredColorScheme(.dark)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    ATTrackingManager.requestTrackingAuthorization { _ in }
+                }
+            }
         }
     }
 }

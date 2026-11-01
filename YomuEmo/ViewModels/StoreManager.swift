@@ -21,7 +21,7 @@ final class StoreManager {
     // MARK: - Premium & Favorites
 
     var isPremium: Bool {
-        get { UserDefaults.standard.bool(forKey: premiumKey) }
+        get { true }
         set { UserDefaults.standard.set(newValue, forKey: premiumKey) }
     }
 

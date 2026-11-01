@@ -18,18 +18,25 @@ struct HomeView: View {
     @State private var store = StoreManager.shared
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-                headerSection
-                streakBanner
-                diagnosisCard
-                emotionTagsSection
-                worksSection
-                authorsSection
+        ZStack(alignment: .bottom) {
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 0) {
+                    headerSection
+                    streakBanner
+                    diagnosisCard
+                    emotionTagsSection
+                    worksSection
+                    authorsSection
+                    Color.clear.frame(height: 60)
+                }
             }
+            .background(DS.Colors.bgPrimary)
+            .navigationBarHidden(true)
+
+            BannerAdView(adUnitID: "ca-app-pub-4859622277330198/4982982838")
+                .frame(height: 50)
+                .frame(maxWidth: .infinity)
         }
-        .background(DS.Colors.bgPrimary)
-        .navigationBarHidden(true)
     }
 
     private var headerSection: some View {

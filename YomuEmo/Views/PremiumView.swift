@@ -100,33 +100,19 @@ struct PremiumView: View {
     }
 
     private var purchaseSection: some View {
-        VStack(spacing: DS.Spacing.md) {
-            if purchased || store.isPremium {
-                VStack(spacing: DS.Spacing.sm) {
-                    Text("🎉")
-                        .font(.system(size: 48))
-                    Text("Premium有効")
-                        .font(DS.Fonts.body(18, weight: .medium))
-                        .foregroundColor(DS.Colors.textPrimary)
-                    Text("すべての機能が使えます")
-                        .font(DS.Fonts.body(14))
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(DS.Spacing.xxl)
-                .glassCard()
-            } else {
-                PrimaryButton(title: "¥980 で購入（買い切り）") {
-                    store.isPremium = true
-                    purchased = true
-                }
-
-                Text("一度の購入で、すべての機能がずっと使えます。\n読書中の広告は表示されません。")
-                    .font(DS.Fonts.caption())
-                    .foregroundColor(DS.Colors.textSecondary.opacity(0.5))
-                    .multilineTextAlignment(.center)
-            }
+        VStack(spacing: DS.Spacing.sm) {
+            Text("🎉")
+                .font(.system(size: 48))
+            Text("すべての機能が使えます")
+                .font(DS.Fonts.body(18, weight: .medium))
+                .foregroundColor(DS.Colors.textPrimary)
+            Text("v1.0はすべての作品・機能が無料で読めます")
+                .font(DS.Fonts.body(14))
+                .foregroundColor(DS.Colors.textSecondary)
         }
+        .frame(maxWidth: .infinity)
+        .padding(DS.Spacing.xxl)
+        .glassCard()
         .padding(.horizontal, DS.Spacing.xl)
         .padding(.bottom, 40)
     }

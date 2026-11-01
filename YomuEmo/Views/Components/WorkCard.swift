@@ -15,16 +15,7 @@ struct WorkCard: View {
                         .font(DS.Fonts.body(16, weight: .medium))
                         .foregroundColor(DS.Colors.textPrimary)
 
-                    if work.isPremium {
-                        Text("Premium")
-                            .font(.system(size: 9, weight: .medium))
-                            .foregroundColor(DS.Colors.accentWarm)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(
-                                Capsule().fill(DS.Colors.accentWarm.opacity(0.2))
-                            )
-                    }
+
                 }
 
                 Text("\(work.authorName) ・ \(work.readTime)")
