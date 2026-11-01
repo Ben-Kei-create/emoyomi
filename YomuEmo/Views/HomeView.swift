@@ -33,7 +33,7 @@ struct HomeView: View {
             .background(DS.Colors.bgPrimary)
             .navigationBarHidden(true)
 
-            BannerAdView(adUnitID: "ca-app-pub-4859622277330198/4982982838")
+            BannerAdView(adUnitID: "ca-app-pub-4859622277330192/4982982838")
                 .frame(height: 50)
                 .frame(maxWidth: .infinity)
         }
