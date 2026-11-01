@@ -27,9 +27,7 @@
 		A1B2C3D4E5F60001000012 /* EmotionMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000012 /* EmotionMeter.swift */; };
 		A1B2C3D4E5F60001000013 /* GlossaryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */; };
 		A1B2C3D4E5F60001000014 /* EmotionTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */; };
-
 		A1B2C3D4E5F60001000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000016 /* Assets.xcassets */; };
-		A1B2C3D4E5F60001000034 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */; };
 		A1B2C3D4E5F60001000017 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */; };
 		A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */; };
 		A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000019 /* AppRoute.swift */; };
@@ -39,7 +37,6 @@
 		A1B2C3D4E5F6000100001E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001E /* MainTabView.swift */; };
 		A1B2C3D4E5F6000100001F /* WorkCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200001F /* WorkCard.swift */; };
 		A1B2C3D4E5F60001000020 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000020 /* Poll.swift */; };
-		A1B2C3D4E5F60001000033 /* SavedQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000033 /* SavedQuote.swift */; };
 		A1B2C3D4E5F60001000022 /* EmotionDiagnosisResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */; };
 		A1B2C3D4E5F60001000023 /* EmotionDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */; };
 		A1B2C3D4E5F60001000024 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000024 /* FavoritesView.swift */; };
@@ -51,6 +48,8 @@
 		A1B2C3D4E5F6000100002E /* AchievementBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000200002E /* AchievementBadge.swift */; };
 		A1B2C3D4E5F60001000031 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000031 /* CollectionView.swift */; };
 		A1B2C3D4E5F60001000032 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000032 /* ProfileView.swift */; };
+		A1B2C3D4E5F60001000033 /* SavedQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000033 /* SavedQuote.swift */; };
+		A1B2C3D4E5F60001000034 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */; };
 		A1B2C3D4E5F60001000035 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60002000035 /* BannerAdView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +74,6 @@
 		A1B2C3D4E5F60002000012 /* EmotionMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionMeter.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryPopup.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionTagButton.swift; sourceTree = "<group>"; };
-
 		A1B2C3D4E5F60002000016 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000018 /* YomuEmoDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomuEmoDesignSystem.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 		A1B2C3D4E5F6000200001E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6000200001F /* WorkCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkCard.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000020 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F60002000033 /* SavedQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuote.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000022 /* EmotionDiagnosisResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDiagnosisResult.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000023 /* EmotionDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDiagnosisView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000024 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
@@ -98,10 +95,11 @@
 		A1B2C3D4E5F6000200002E /* AchievementBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementBadge.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000031 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000032 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60002000033 /* SavedQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuote.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000034 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000035 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60002000036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YomuEmo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D4E5F60003000001 /* YomuEmo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = YomuEmo.app; path = "よむエモ.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +113,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A1B2C3D4E5F60005000001 /* root */ = {
+		A1B2C3D4E5F60005000001 = {
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F60005000002 /* YomuEmo */,
@@ -203,7 +201,6 @@
 				A1B2C3D4E5F60002000012 /* EmotionMeter.swift */,
 				A1B2C3D4E5F60002000013 /* GlossaryPopup.swift */,
 				A1B2C3D4E5F60002000014 /* EmotionTagButton.swift */,
-
 				A1B2C3D4E5F6000200001C /* ReadingCard.swift */,
 				A1B2C3D4E5F6000200001D /* PrimaryButton.swift */,
 				A1B2C3D4E5F6000200001F /* WorkCard.swift */,
@@ -222,6 +219,14 @@
 				A1B2C3D4E5F60002000017 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F60005000009 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D4E5F60003000001 /* YomuEmo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A1B2C3D4E5F6000500000A /* Design */ = {
@@ -246,14 +251,6 @@
 				A1B2C3D4E5F6000200001A /* AssetNames.swift */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		A1B2C3D4E5F60005000009 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A1B2C3D4E5F60003000001 /* YomuEmo.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,7 +297,7 @@
 				Base,
 				ja,
 			);
-			mainGroup = A1B2C3D4E5F60005000001 /* root */;
+			mainGroup = A1B2C3D4E5F60005000001;
 			productRefGroup = A1B2C3D4E5F60005000009 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -348,7 +345,6 @@
 				A1B2C3D4E5F60001000012 /* EmotionMeter.swift in Sources */,
 				A1B2C3D4E5F60001000013 /* GlossaryPopup.swift in Sources */,
 				A1B2C3D4E5F60001000014 /* EmotionTagButton.swift in Sources */,
-
 				A1B2C3D4E5F60001000018 /* YomuEmoDesignSystem.swift in Sources */,
 				A1B2C3D4E5F60001000019 /* AppRoute.swift in Sources */,
 				A1B2C3D4E5F6000100001A /* AssetNames.swift in Sources */,
